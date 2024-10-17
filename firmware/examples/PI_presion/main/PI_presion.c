@@ -18,17 +18,28 @@
  */
 
 /*==================[inclusions]=============================================*/
+#include <stdio.h>
+#include <stdint.h>
+#include <xfpm.h>
+
 
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data definition]===============================*/
+typedef struct {
 
+    float presion_min;
+    float presion_max;
+
+} PressureValues;
 /*==================[internal functions declaration]=========================*/
 
 /*==================[external functions definition]==========================*/
 void app_main(void){
-   
-   
+
+   XFPM050Init();
+   PressureValues* presion;
+   *presion = XFP050MeassurePressure();
 }
 
 /*==================[end of file]============================================*/
