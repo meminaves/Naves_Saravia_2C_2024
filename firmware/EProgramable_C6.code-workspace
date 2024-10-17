@@ -32,6 +32,12 @@
         },
         {
             "path": "examples/ej_mfrc522"
+        },
+        {
+            "path": "proyecto_integrador"
+        },
+        {
+            "path": "examples/PI"
         }
     ],
     "settings": {
