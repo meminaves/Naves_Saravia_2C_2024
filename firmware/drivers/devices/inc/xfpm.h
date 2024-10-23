@@ -1,7 +1,7 @@
 #ifndef XFPM_H
 #define XFPM_H
 
-/*==================[inclusions]=============================================*/
+/*==================[inclusiones]============================================*/
 
 #include <stdint.h>
 #include "gpio_mcu.h"
@@ -11,36 +11,44 @@
 
 /*==================[typedef]================================================*/
 
+/*==================[declaración de datos externos]==========================*/
 
-/*==================[external data declaration]==============================*/
+/*==================[declaración de funciones externas]======================*/
 
-
-/*==================[external functions declaration]=========================*/
-
-/** @fn bool Si7007Init(Si7007_config *pins);
- * @brief Initialization function of Si7007.
- * @param[in] *pins
- * @return TRUE if no error.
+/** 
+ * @fn bool XFPM050Init(void);
+ * @brief Función de inicialización del sensor de presión XFPM-050KPG.
+ * 
+ * Inicializa el sensor de presión configurando los pines y ADC necesarios para su funcionamiento.
+ * 
+ * @return Devuelve TRUE si la inicialización es exitosa, FALSE en caso contrario.
  */
-bool XFPM050Init();
+bool XFPM050Init(void);
 
-/** @fn uint16_t Si7007MeasureTemperature(void)
- * @brief Measures the current temperature
- * @param[in] No Parameter
- * @return value of temperature in °C
+/** 
+ * @fn float XFPM050MeasurePressure(void);
+ * @brief Mide la presión actual detectada por el sensor XFPM-050KPG.
+ * 
+ * Realiza una lectura del ADC y calcula el valor de presión correspondiente. 
+ * La función devuelve el valor en unidades de presión (kPa)
+ * 
+ * @return Devuelve el valor de la presión medida en el sensor, en kPa.
  */
 float XFPM050MeasurePressure(void);
 
-
-/** @fn bool Si7007dEInit(Si7007_config *pins);
- * @brief deinitialization function of Si7007.
- * @param[in] *pins
- * @return TRUE if no error.
+/** 
+ * @fn bool XFPM050Deinit(void);
+ * @brief Función de desinicialización del sensor de presión XFPM-050KPG.
+ * 
+ * Libera los recursos utilizados por el sensor y apaga los pines/ADC utilizados.
+ * 
+ * @return Devuelve TRUE si la desinicialización es exitosa, FALSE en caso contrario.
  */
-bool XFPM050Deinit();
+bool XFPM050Deinit(void);
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
-/*==================[end of file]============================================*/
-#endif /* #ifndef SI7007_H */
+
+/*==================[fin del archivo]========================================*/
+#endif /* #ifndef XFPM_H */
