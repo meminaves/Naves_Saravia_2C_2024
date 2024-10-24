@@ -6,7 +6,7 @@
 
 /*==================[macros and definitions]=================================*/
 
-#define V_REF 3.3f                /**< Tensión de referencia */
+#define V_REF 5.0f                /**< Tensión de referencia */
 #define TOTAL_BITS 4096           /**< Cantidad total de bits del ADC */ //A CHEQUEAR
 #define ALPHA 0.018f
 #define BETA  0.04f
@@ -19,8 +19,7 @@
 } PressureValues;*/
 
 /*==================[external functions definition]==========================*/
-
-bool XFPM050KInit(adc_ch_t input)
+bool XFPM050Init(adc_ch_t input)
 {
 	analog_input_config_t presion_config = {
         .input = input,

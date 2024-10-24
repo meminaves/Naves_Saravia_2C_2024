@@ -27,6 +27,7 @@ typedef struct {
  * 
  * @return Devuelve TRUE si la inicialización es exitosa, FALSE en caso contrario.
  */
+
 bool XFPM050Init(adc_ch_t input);
 
 /** 
