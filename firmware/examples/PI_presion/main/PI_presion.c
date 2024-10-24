@@ -25,12 +25,15 @@
 #include "analog_io_mcu.h"
 #include <gpio_mcu.h>
 
-
+#include <stdbool.h>
 #include "led.h"
 #include "servo_sg90.h"
 #include "pwm_mcu.h"
 #include "neopixel_stripe.h"
-#include <gpio_mcu.h>
+
+
+
+
 /*==================[macros and definitions]=================================*/
 
 /*! @brief Período del temporizador en microsegundos */
@@ -42,6 +45,10 @@
 #define NEOPIXEL_COLOR_GREEN          0x0000FF00  /*> Color green */
 
 #define RETARDO_SERVOS 1000
+
+#define MIN_ANG		-90
+#define MAX_ANG		90
+
 
 // bool FC1;
 // bool FC2;
@@ -95,14 +102,18 @@ static void medirPresionesTask()
 }
 void manejarServosYLEDs(){
     //Puertas cerradas
+    printf("Arranca función");
     if (FC1 && FC2)//AND
     {
+        printf("LED VERDE\n");
         /* LED1(verde) ON
         SERVO1 OPEN
         SERVO2 OPEN */
         NeoPixelAllOff();
         NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
+        printf("Se mueve SERVO_1  a 0°(ABIERTO)\n");
         ServoMove(SERVO_1, 0);
+        printf("Se mueve SERVO_2  a 0°(ABIERTO)\n");
         ServoMove(SERVO_2, 0);
     }
     //Una puerta abierta
@@ -110,24 +121,32 @@ void manejarServosYLEDs(){
     {
         NeoPixelAllOff();
         NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
+        printf("LED AMARILLO\n");
         //LED2(amarillo) ON
         if (FC1 == false)//Puerta 1 abierta
+        //FC2=1 y FC0=1
         {
+            printf("Se mueve SERVO_1  a 0°(ABIERTO)\n");
             ServoMove(SERVO_1, 0);
+            printf("Se mueve SERVO_2  a 90°(CERRADO)\n");
             ServoMove(SERVO_2, 90);
             //A) SERVO1 OPEN y SERVO2 CLOSED
         }
         if (FC2 == false)//Puerta 2 abierta
+        //FC2=0 y FC1=1
         {
+            printf("Se mueve SERVO_1  a 90°(CERRADO)\n");
             ServoMove(SERVO_1, 90);
+            printf("Se mueve SERVO_2  a 0°(ABIERTO)\n");
             ServoMove(SERVO_2, 0);
             //B) SERVO1 CLOSED y SERVO2 OPEN
             /* code */
         }
     }
     //Dos puertas abiertas
-    else if (!(FC1 || FC2))//NOR
+    if (!(FC1 || FC2))//NOR
     {
+        printf("LED ROJO\n");
         NeoPixelAllOff();
         NeoPixelAllColor(NEOPIXEL_COLOR_RED);
         /* LED3(rojo) ON
@@ -153,16 +172,16 @@ void detectarFC()
 		case 'A':
 			FC1 = !FC1;
 			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 1");
+            printf("Cambia estado puerta 1\n");
             
-            printf("FC1 esta en%d: \n",FC1);
+            printf("FC1 esta en: %d\n",FC1);
 			break;
 	
 		case 'B':
 			FC2 = !FC2;
 			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 2");
-            printf("FC2 esta en%d: \n",FC2);
+            printf("Cambia estado puerta 2\n");
+            printf("FC2 esta en: %d\n",FC2);
 			break;
 	}
 }
@@ -178,10 +197,13 @@ void app_main(void){
    XFPM050Init(CH2);
 
     ServoInit(SERVO_1, GPIO_0);//Falta definir gpio
+    ServoMove(SERVO_1, 45);
     //ServoInit(SERVO_2, 3)//Falta definir gpio
     static neopixel_color_t color;
+    color = NEOPIXEL_COLOR_BLUE;
     NeoPixelInit(BUILT_IN_RGB_LED_PIN, BUILT_IN_RGB_LED_LENGTH, &color);
-
+    NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
+    
    	/* Inicialización de timers */
     timer_config_t timer_medir_presiones = {
         .timer = TIMER_A,
@@ -201,6 +223,7 @@ void app_main(void){
 	};
 
 	UartInit(&myUart);
+
     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
 
     xTaskCreate(&servosyLEDS_task, "Servos y LEDs", 2048, NULL, 5, &servosyLEDs_task_handle);
