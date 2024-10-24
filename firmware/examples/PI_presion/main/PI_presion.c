@@ -24,18 +24,36 @@
 #include "uart_mcu.h"
 #include "analog_io_mcu.h"
 #include <gpio_mcu.h>
+
+
+#include "led.h"
+#include "servo_sg90.h"
+#include "pwm_mcu.h"
+#include "neopixel_stripe.h"
+#include <gpio_mcu.h>
 /*==================[macros and definitions]=================================*/
 
 /*! @brief Período del temporizador en microsegundos */
 #define CONFIG_BLINK_PERIOD_TIMER_A 1000000
 #define TOTAL_BITS 4096           /**< Cantidad total de bits del ADC */ //A CHEQUEAR
 
+#define NEOPIXEL_COLOR_RED            0x00FF0000  /*> Color red */
+#define NEOPIXEL_COLOR_YELLOW         0x007F7F00  /*> Color yellow */
+#define NEOPIXEL_COLOR_GREEN          0x0000FF00  /*> Color green */
+
+#define RETARDO_SERVOS 1000
+
+// bool FC1;
+// bool FC2;
+// false = puerta abierta
+// true = puerta cerrada
 
 /*==================[internal data definition]===============================*/
 
 float PRESION_HAB_LIMPIA;
 
 float PRESION_HAB_SUCIA;
+
 
 float DIF_PRESION;
 
@@ -45,6 +63,9 @@ bool FC2 = true;
 
 TaskHandle_t medirPresiones_task_handle = NULL;
 
+TaskHandle_t servosyLEDs_task_handle = NULL;
+
+ 
 /*==================[internal functions declaration]=========================*/
 
 void FuncTimerMedirPresiones(void* param)
@@ -58,17 +79,70 @@ static void medirPresionesTask()
     {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
-        //Mido presiones y almaceno en las variables globales
-        PRESION_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
-        printf("PRESION HAB LIMPIA: %f\n",PRESION_HAB_LIMPIA);
+        //manejarServosYLEDs();
 
-        PRESION_HAB_SUCIA = XFPM050MeasurePressure(CH2);
-        printf("PRESION HAB SUCIA: %f",PRESION_HAB_SUCIA);
+        // //Mido presiones y almaceno en las variables globales
+        // PRESION_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
+        // printf("PRESION HAB LIMPIA: %f\n",PRESION_HAB_LIMPIA);
 
-        //Hallo el diferencial de presión y lo almaceno en la variable global
-        DIF_PRESION = PRESION_HAB_LIMPIA - PRESION_HAB_SUCIA;
-        printf("DIFERENCIAL DE PRESIÓN: %f\n",DIF_PRESION);
+        // PRESION_HAB_SUCIA = XFPM050MeasurePressure(CH2);
+        // printf("PRESION HAB SUCIA: %f",PRESION_HAB_SUCIA);
+
+        // //Hallo el diferencial de presión y lo almaceno en la variable global
+        // DIF_PRESION = PRESION_HAB_LIMPIA - PRESION_HAB_SUCIA;
+        // printf("DIFERENCIAL DE PRESIÓN: %f\n",DIF_PRESION);
     }
+}
+void manejarServosYLEDs(){
+    //Puertas cerradas
+    if (FC1 && FC2)//AND
+    {
+        /* LED1(verde) ON
+        SERVO1 OPEN
+        SERVO2 OPEN */
+        NeoPixelAllOff();
+        NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
+        ServoMove(SERVO_1, 0);
+        ServoMove(SERVO_2, 0);
+    }
+    //Una puerta abierta
+    if (FC1 != FC2)//XOR
+    {
+        NeoPixelAllOff();
+        NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
+        //LED2(amarillo) ON
+        if (FC1 == false)//Puerta 1 abierta
+        {
+            ServoMove(SERVO_1, 0);
+            ServoMove(SERVO_2, 90);
+            //A) SERVO1 OPEN y SERVO2 CLOSED
+        }
+        if (FC2 == false)//Puerta 2 abierta
+        {
+            ServoMove(SERVO_1, 90);
+            ServoMove(SERVO_2, 0);
+            //B) SERVO1 CLOSED y SERVO2 OPEN
+            /* code */
+        }
+    }
+    //Dos puertas abiertas
+    else if (!(FC1 || FC2))//NOR
+    {
+        NeoPixelAllOff();
+        NeoPixelAllColor(NEOPIXEL_COLOR_RED);
+        /* LED3(rojo) ON
+        Alarma sonora */
+    }
+}
+
+static void servosyLEDS_task(){
+    while (true)
+    {
+        
+        manejarServosYLEDs();
+        vTaskDelay(RETARDO_SERVOS / portTICK_PERIOD_MS);
+    }
+    
 }
 void detectarFC()
 {
@@ -79,21 +153,35 @@ void detectarFC()
 		case 'A':
 			FC1 = !FC1;
 			UartSendByte(UART_PC, (char*)&tecla);
+            printf("Cambia estado puerta 1");
+            
+            printf("FC1 esta en%d: \n",FC1);
 			break;
 	
 		case 'B':
 			FC2 = !FC2;
 			UartSendByte(UART_PC, (char*)&tecla);
+            printf("Cambia estado puerta 2");
+            printf("FC2 esta en%d: \n",FC2);
 			break;
 	}
 }
+
+//void ServoMove(servo_out_t servo, int8_t ang)
+//void NeoPixelAllColor(neopixel_color_t color)
+
 /*==================[external functions definition]==========================*/
 void app_main(void){
 
     /*Inicialización de los sensores de presión*/
    XFPM050Init(CH1);
    XFPM050Init(CH2);
-   
+
+    ServoInit(SERVO_1, GPIO_0);//Falta definir gpio
+    //ServoInit(SERVO_2, 3)//Falta definir gpio
+    static neopixel_color_t color;
+    NeoPixelInit(BUILT_IN_RGB_LED_PIN, BUILT_IN_RGB_LED_LENGTH, &color);
+
    	/* Inicialización de timers */
     timer_config_t timer_medir_presiones = {
         .timer = TIMER_A,
@@ -114,6 +202,19 @@ void app_main(void){
 
 	UartInit(&myUart);
     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
-}
 
+    xTaskCreate(&servosyLEDS_task, "Servos y LEDs", 2048, NULL, 5, &servosyLEDs_task_handle);
+
+//uint8_t ServoInit(servo_out_t servo, gpio_t gpio);
+//void NeoPixelInit(gpio_t pin, uint16_t len, neopixel_color_t *color_array)
+  
+    
+
+   
+   //Iniciar servos
+   //Iniciar neopixel
+   
+
+    
+}
 /*==================[end of file]============================================*/
