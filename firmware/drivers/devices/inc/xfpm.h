@@ -10,6 +10,10 @@
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
+typedef struct {
+    float presion_min;
+    float presion_max;
+} PressureValues;
 
 /*==================[declaración de datos externos]==========================*/
 
@@ -23,7 +27,7 @@
  * 
  * @return Devuelve TRUE si la inicialización es exitosa, FALSE en caso contrario.
  */
-bool XFPM050Init(void);
+bool XFPM050Init(adc_ch_t input);
 
 /** 
  * @fn float XFPM050MeasurePressure(void);
@@ -34,7 +38,7 @@ bool XFPM050Init(void);
  * 
  * @return Devuelve el valor de la presión medida en el sensor, en kPa.
  */
-float XFPM050MeasurePressure(void);
+float XFPM050MeasurePressure(adc_ch_t input);
 
 /** 
  * @fn bool XFPM050Deinit(void);
@@ -44,7 +48,7 @@ float XFPM050MeasurePressure(void);
  * 
  * @return Devuelve TRUE si la desinicialización es exitosa, FALSE en caso contrario.
  */
-bool XFPM050Deinit(void);
+//bool XFPM050Deinit(void);
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

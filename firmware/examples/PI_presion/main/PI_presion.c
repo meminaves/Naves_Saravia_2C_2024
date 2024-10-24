@@ -17,28 +17,23 @@
 /*==================[inclusions]=============================================*/
 #include <stdio.h>
 #include <stdint.h>
-#include <xfpm.h>
+#include "xfpm.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "timer_mcu.h"
 #include "uart_mcu.h"
+#include "analog_io_mcu.h"
 #include <gpio_mcu.h>
 /*==================[macros and definitions]=================================*/
-typedef struct {
-
-    float presion_min;
-    float presion_max;
-
-} PressureValues;
 
 /*! @brief Período del temporizador en microsegundos */
 #define CONFIG_BLINK_PERIOD_TIMER_A 20000 
 
 /*==================[internal data definition]===============================*/
 
-PressureValues* PRESIONES_HAB_LIMPIA;
+float PRESION_HAB_LIMPIA;
 
-PressureValues* PRESIONES_HAB_SUCIA;
+float PRESION_HAB_SUCIA;
 
 int DIF_PRESION;
 
@@ -62,12 +57,12 @@ static void medirPresionesTask()
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
         //Mido presiones y almaceno en las variables globales
-        PRESIONES_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
-        PRESIONES_HAB_SUCIA = XFPM050MeasurePressure(CH2);
+        PRESION_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
+        PRESION_HAB_SUCIA = XFPM050MeasurePressure(CH2);
         
 
         //Hallo el diferencial de presión y lo almaceno en la variable global
-        DIF_PRESION = PRESIONES_HAB_LIMPIA->presion_min - PRESIONES_HAB_SUCIA->presion_max;
+        DIF_PRESION = PRESION_HAB_LIMPIA - PRESION_HAB_SUCIA;
     }
 }
 void detectarFC()

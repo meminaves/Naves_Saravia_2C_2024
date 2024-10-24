@@ -1,5 +1,6 @@
 #include "xfpm.h"
 #include "gpio_mcu.h"
+#include "analog_io_mcu.h"
 #include <stdio.h>
 #include <stdint.h>
 
@@ -12,34 +13,30 @@
 #define PRESSURE_ERROR 1.25f
 
 /*==================[internal data declaration]==============================*/
-
-analog_input_config_t presion_config = {
-    .input = CH2,
-    .mode = ADC_SINGLE,
-};
-
-typedef struct {
+/*typedef struct {
     float presion_min;
     float presion_max;
-} PressureValues;
+} PressureValues;*/
 
 /*==================[external functions definition]==========================*/
 
-bool XFPM050KInit(adc_input_t input)
+bool XFPM050KInit(adc_ch_t input)
 {
 	analog_input_config_t presion_config = {
         .input = input,
         .mode = ADC_SINGLE,
     };
-	
-    if (AnalogInputInit(&presion_config) != SUCCESS) {
+
+	AnalogInputInit(&presion_config);
+
+    /*if (AnalogInputInit(&presion_config) != SUCCESS) {
         printf("Error: ADC Initialization failed.\n");
         return false;
-    }
+    }*/
     return true;
 }
 
-PressureValues XFPM050MeasurePressure(adc_input_t input)
+float XFPM050MeasurePressure(adc_ch_t input)
 {
 	    analog_input_config_t presion_config = {
         .input = input,
@@ -47,11 +44,11 @@ PressureValues XFPM050MeasurePressure(adc_input_t input)
     };
 
     uint16_t valor_sensor;
-    float presion = 0;
     float valor = 0;
-    PressureValues pressure = {0};
+    float pressure = 0;
+    AnalogInputReadSingle(presion_config.input, &valor_sensor);
 
-    if (AnalogInputReadSingle(presion_config.input, &valor_sensor) != SUCCESS) {
+    /*if (AnalogInputReadSingle(presion_config.input, &valor_sensor) != SUCCESS) {
         printf("Error: lectura fallida ADC .\n");
         return pressure;  // Devuelve un valor por defecto en caso de error
     }
@@ -59,22 +56,24 @@ PressureValues XFPM050MeasurePressure(adc_input_t input)
     if (value > TOTAL_BITS || value < 0) {
         printf("Error: lectura fuera de rango.\n");
         return pressure;
-    }
+    }*/
 
     valor = (valor_sensor / 1000.0f);  // Lectura en mV
     float valor_escalado = valor / V_REF;
     float termino_comun = 1 / ALPHA * (valor_escalado - BETA);
 
-    pressure.presion_max = termino_comun + PRESSURE_ERROR;
-    pressure.presion_min = termino_comun - PRESSURE_ERROR;
+    float presion_max = termino_comun + PRESSURE_ERROR;
+    float presion_min = termino_comun - PRESSURE_ERROR;
+
+    pressure = (presion_max + presion_min)/2;
 
     return pressure;
 }
 
-bool XFPM050Deinit()
+/*bool XFPM050Deinit()
 {
     AnalogInputDeinit(&presion_config);  // Libera recursos del ADC si es necesario
     return true;
-}
+}*/
 
 /*==================[end of file]============================================*/
