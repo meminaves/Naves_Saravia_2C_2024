@@ -27,7 +27,7 @@
 /*==================[macros and definitions]=================================*/
 
 /*! @brief Período del temporizador en microsegundos */
-#define CONFIG_BLINK_PERIOD_TIMER_A 2000 
+#define CONFIG_BLINK_PERIOD_TIMER_A 1000000
 #define TOTAL_BITS 4096           /**< Cantidad total de bits del ADC */ //A CHEQUEAR
 
 
@@ -62,8 +62,8 @@ static void medirPresionesTask()
         PRESION_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
         printf("PRESION HAB LIMPIA: %f\n",PRESION_HAB_LIMPIA);
 
-        //PRESION_HAB_SUCIA = XFPM050MeasurePressure(CH2);
-        //printf("PRESION HAB SUCIA: %f",PRESION_HAB_SUCIA);
+        PRESION_HAB_SUCIA = XFPM050MeasurePressure(CH2);
+        printf("PRESION HAB SUCIA: %f",PRESION_HAB_SUCIA);
 
         //Hallo el diferencial de presión y lo almaceno en la variable global
         DIF_PRESION = PRESION_HAB_LIMPIA - PRESION_HAB_SUCIA;
@@ -92,7 +92,7 @@ void app_main(void){
 
     /*Inicialización de los sensores de presión*/
    XFPM050Init(CH1);
-   //XFPM050Init(CH2);
+   XFPM050Init(CH2);
    
    	/* Inicialización de timers */
     timer_config_t timer_medir_presiones = {
