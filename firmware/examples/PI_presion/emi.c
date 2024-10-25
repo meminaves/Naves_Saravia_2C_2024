@@ -22,6 +22,8 @@
 // #include "freertos/task.h"
 // #include "timer_mcu.h"
 // #include "uart_mcu.h"
+// #include "switch.h"
+// #include "neopixel_stripe.h"
 // #include <gpio_mcu.h>
 // /*==================[macros and definitions]=================================*/
 // typedef struct {
@@ -32,7 +34,8 @@
 // } PressureValues;
 
 // /*! @brief Período del temporizador en microsegundos */
-// #define CONFIG_BLINK_PERIOD_TIMER_A 20000 
+// #define CONFIG_BLINK_PERIOD_TIMER_A  1000000
+// #define CONFIG_BLINK_PERIOD_TIMER_B  500000
 
 // /*==================[internal data definition]===============================*/
 
@@ -42,17 +45,25 @@
 
 // int DIF_PRESION;
 
-// bool FC1 = true;
+// bool FC1 = true; //A chequear
 
-// bool FC2 = true;
+// bool FC2 = true; //A chequear
+
+// bool ON = true; 
 
 // TaskHandle_t medirPresiones_task_handle = NULL;
+// TaskHandle_t perifericos_task_handle = NULL;
 
 // /*==================[internal functions declaration]=========================*/
 
 // void FuncTimerMedirPresiones(void* param)
 // {
 //     vTaskNotifyGiveFromISR(medirPresiones_task_handle, pdFALSE);    	
+// }
+
+// void FuncTimerManejarPerifericos(void* param)
+// {
+//     vTaskNotifyGiveFromISR(perifericos_task_handle , pdFALSE);    	
 // }
 
 // static void medirPresionesTask()
@@ -68,6 +79,25 @@
 
 //         //Hallo el diferencial de presión y lo almaceno en la variable global
 //         DIF_PRESION = PRESIONES_HAB_LIMPIA->presion_min - PRESIONES_HAB_SUCIA->presion_max;
+//     }
+// }
+// void tecla1()
+// {
+//     ON = !ON
+// }
+// static void manejarPerifericosTask(){
+//     while (true)
+//     {
+//         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+//         if(ON == true)
+//         {
+//             manejarServosYLEDs(); 
+//         }
+//         else
+//         {
+//             NeoPixelAllOff();
+//         }
 //     }
 // }
 // void detectarFC()
@@ -91,8 +121,11 @@
 // void app_main(void){
 
 //     /*Inicialización de los sensores de presión*/
-//    XFPM050Init(CH1);
-//    XFPM050Init(CH2);
+//     XFPM050Init(CH1);
+//     XFPM050Init(CH2);
+
+//     SwitchesInit();
+//     SwitchActivInt(SWITCH_1, *tecla1, NULL); 
    
 //    	/* Inicialización de timers */
 //     timer_config_t timer_medir_presiones = {
@@ -104,6 +137,19 @@
 //     TimerInit(&timer_medir_presiones);
 // 	TimerStart(timer_medir_presiones.timer);
 
+
+
+//         timer_config_t timer_per = {
+//         .timer = TIMER_B,
+//         .period = CONFIG_BLINK_PERIOD_TIMER_B,
+//         .func_p = FuncTimerManejarPerifericos, //Aca va la funcion de interrupcion
+//         .param_p = NULL
+//     };
+//     TimerInit(&timer_per);
+// 	TimerStart(timer_per.timer);
+
+
+
 //     //Puerto Serie
 // 		serial_config_t myUart = {
 // 		.port = UART_PC,
@@ -112,9 +158,11 @@
 // 		.param_p = NULL,
 // 	};
 
+
 // 	UartInit(&myUart);
 	
 //     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
+//     xTaskCreate(&manejarPerifericosTask, "Servos y LEDs", 2048, NULL, 5, &perifericos_task_handle);
 // }
 
 // /*==================[end of file]============================================*/
