@@ -80,3 +80,19 @@
 // }
 
 // /*==================[end of file]============================================*/
+#include "gpio_mcu.h"
+
+#define GPIO_FC1 GPIO_X
+#define GPIO_FC2 GPIO_Y
+
+int8_t FCInit(gpio_t pin){
+	/* GPIO configurations */
+	GPIOInit(pin, GPIO_INPUT);	// FC
+	return true;
+}
+
+int8_t FCRead(gpio_t pin){
+
+    return GPIORead(pin);
+    
+}

@@ -98,7 +98,8 @@
             "fft.h": "c",
             "i2c.h": "c",
             "xfpm050k.h": "c",
-            "pwm_mcu.h": "c"
+            "pwm_mcu.h": "c",
+            "xlocale": "c"
         },
     },
     "tasks": {
