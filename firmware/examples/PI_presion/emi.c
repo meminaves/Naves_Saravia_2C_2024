@@ -26,6 +26,7 @@
 #include "neopixel_stripe.h"
 #include "servo_sg90.h"
 #include <gpio_mcu.h>
+#include "ble_mcu.h"
 /*==================[macros and definitions]=================================*/
 typedef struct {
 
@@ -62,11 +63,11 @@ int ESTADO_ANTERIOR = AMBAS_CERRADAS;
 
 /*==================[internal data definition]===============================*/
 
-PressureValues* PRESIONES_HAB_LIMPIA;
+float PRESION_HAB_LIMPIA;
 
-PressureValues* PRESIONES_HAB_SUCIA;
+float PRESION_HAB_SUCIA;
 
-int DIF_PRESION;
+float DIF_PRESION;
 
 bool FC1 = true; //A chequear
 
@@ -99,12 +100,12 @@ static void medirPresionesTask()
         //Mido presiones y almaceno en las variables globales
         PRESIONES_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
         PRESIONES_HAB_SUCIA = XFPM050MeasurePressure(CH2);
-        
 
         //Hallo el diferencial de presión y lo almaceno en la variable global
         DIF_PRESION = PRESIONES_HAB_LIMPIA->presion_min - PRESIONES_HAB_SUCIA->presion_max;
     }
 }
+
 void tecla1()
 {
     ON = !ON
@@ -143,8 +144,8 @@ void leerEstadoDePuertas()
         ESTADO_ACTUAL = AMBAS_ABIERTAS;
     }
 }
-static void manejarPerifericosTask(){
 
+static void manejarPerifericosTask(){
     while (true)
     {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
@@ -161,6 +162,7 @@ static void manejarPerifericosTask(){
         ESTADO_ANTERIOR = ESTADO_ACTUAL;
     }
 }
+
 void manejarServosYLEDs()
 {
     leerEstadoDePuertas();
@@ -236,6 +238,53 @@ void manejarServosYLEDs()
         }
     }
 }
+
+//A AÑADIR AL MAIN JUNTO A LA CONFIGURACION EN EL MAIN
+
+#define DIF_PRESION_MIN 5 //el diferencial de presión debe ser de al menos 5 kPa
+
+void enviar_datos_bt_Task()
+{
+while (true)
+{
+    switch(BleStatus())
+    {
+            case BLE_OFF:
+                LedOff(LED_BT);
+            break;
+            case BLE_DISCONNECTED:
+                LedToggle(LED_BT);
+            break;
+            case BLE_CONNECTED:
+                LedOn(LED_BT);
+            break;
+    }
+
+    char presion_hab_limpia_str[20];
+    char presion_hab_sucia_str[20];
+    char presion_diferencial_str[20];
+
+    snprintf(presion_hab_limpia_str, sizeof(presion_hab_limpia_str), "*L%.2f*", PRESION_HAB_LIMPIA);
+    snprintf(presion_hab_sucia_str, sizeof(presion_hab_sucia_str), "*S%.2f*", PRESION_HAB_SUCIA);
+    snprintf(presion_diferencial_str, sizeof(presion_diferencial_str), "*D%.2f*", DIF_PRESION);
+
+    BleSendString(presion_hab_limpia_str);
+    BleSendString(presion_hab_sucia_str);
+    BleSendString(presion_diferencial_str);
+
+        if (DIF_PRESION < DIF_PRESION_MIN)
+        {
+            char luz[10] = "*FR255G0B0*";
+            BleSendString(luz);
+            char volumen[10] = "*VV100*";
+            BleSendString(volumen);
+        }
+
+        //vTaskDelay(); Cada un segundo podria ser
+}
+
+}
+//
 /*==================[external functions definition]==========================*/
 void app_main(void){
 
@@ -264,8 +313,6 @@ void app_main(void){
     };
     TimerInit(&timer_per);
 	TimerStart(timer_per.timer);
-
-
 
     //Puerto Serie
 		serial_config_t myUart = {
