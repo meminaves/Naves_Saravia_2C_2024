@@ -56,7 +56,6 @@ float PRESION_HAB_LIMPIA;
 
 float PRESION_HAB_SUCIA;
 
-
 float DIF_PRESION;
 
 bool FC1 = true;
@@ -70,6 +69,26 @@ TaskHandle_t medirPresiones_task_handle = NULL;
 TaskHandle_t servosyLEDs_task_handle = NULL;
 
 TaskHandle_t perifericos_task_handle = NULL;
+
+typedef enum lista_estado_puertas
+{
+    AMBAS_CERRADAS = 0,
+    UNA_CERRADA,
+    AMBAS_ABIERTAS,
+
+} estado_puerta;
+
+typedef enum estados_servos
+{
+    SERVO_ABIERTO = 0,
+    SERVO_CERRADO = 90,
+} estado_servo;
+
+estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
+estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
+
+estado_puerta ESTADO_ACTUAL = AMBAS_CERRADAS;
+estado_puerta ESTADO_ANTERIOR = AMBAS_CERRADAS;
  
 /*==================[internal functions declaration]=========================*/
 
@@ -101,61 +120,118 @@ void FuncTimerManejarPerifericos(void* param)
         // printf("DIFERENCIAL DE PRESIÓN: %f\n",DIF_PRESION);
 //     }
 // }
-void manejarServosYLEDs()
+
+void leerEstadoDePuertas()
 {
-    //Puertas cerradas
-    if (FC1 && FC2)//AND
+    if(FC1 && FC2)
     {
-        /* LED1(verde) ON
-        SERVO1 OPEN
-        SERVO2 OPEN */
-        //NeoPixelAllOff();
-        NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
-        ServoMove(SERVO_1, 0);
-        ServoMove(SERVO_2, 0);
-        printf("Ambas puertas cerradas\n");
+        ESTADO_ACTUAL = AMBAS_CERRADAS;
     }
-    //Una puerta abierta
-    if (FC1 != FC2)//XOR
+    else if(FC1 != FC2)
     {
-        //NeoPixelAllOff();
-        NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
-        //LED2(amarillo) ON
-        printf("Una abierta\n");
-        if (FC1 == false)//Puerta 1 abierta
-        {
-            ServoMove(SERVO_1, 0);
-            ServoMove(SERVO_2, 90);
-            //A) SERVO1 OPEN y SERVO2 CLOSED
-        }
-        if (FC2 == false)//Puerta 2 abierta
-        {
-            ServoMove(SERVO_1, 90);
-            ServoMove(SERVO_2, 0);
-            //B) SERVO1 CLOSED y SERVO2 OPEN
-            /* code */
-        }
+        ESTADO_ACTUAL = UNA_CERRADA;
     }
-    //Dos puertas abiertas
-     if (!(FC1 || FC2))//NOR
+    else if (!(FC1 || FC2))
     {
-        printf("Ambas abiertas\n");
-        //NeoPixelAllOff();
-        NeoPixelAllColor(NEOPIXEL_COLOR_CYAN);
-        /* LED3(rojo) ON
-        Alarma sonora */
+        ESTADO_ACTUAL = AMBAS_ABIERTAS;
     }
 }
 
-// static void servosyLEDS_task()
-// {
-//     while (true)
-//     {
-//         manejarServosYLEDs();
-//         vTaskDelay(RETARDO_SERVOS / portTICK_PERIOD_MS);
-//     }
-    
-// }
+void manejarServosYLEDs()
+{
+    leerEstadoDePuertas();
+
+    if (ESTADO_ACTUAL != ESTADO_ANTERIOR)
+    {
+        
+        switch (ESTADO_ACTUAL)
+        {
+        // Puertas cerradas
+        case AMBAS_CERRADAS:
+            /* LED 1 (verde) encendido
+            SERVO_1 OPEN -> Puerta 1 cerrada
+            SERVO_2 OPEN -> Puerta 2 cerrada */
+
+            NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
+
+            if (ESTADO_SERVO_1 != SERVO_ABIERTO)
+            {
+                ServoMove(SERVO_1, SERVO_ABIERTO);
+                ESTADO_SERVO_1 = SERVO_ABIERTO;
+            }
+            if (ESTADO_SERVO_2 != SERVO_ABIERTO)
+            {
+                ServoMove(SERVO_2, SERVO_ABIERTO);
+                ESTADO_SERVO_2 = SERVO_ABIERTO;
+            }
+
+            printf("Ambas puertas cerradas\n");
+
+            break;
+
+        // Una puerta abierta
+        case UNA_CERRADA:
+            /*
+            Luz amarilla
+            Puerta 1 abierta -> SERVO_2 cerrado
+            o bien
+            Puerta 2 abierta -> SERVO_1 cerrado
+            */
+            NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
+            printf("Una abierta\n");
+            if (FC1 == false) // Puerta 1 abierta
+            {
+                if (ESTADO_SERVO_2 != SERVO_CERRADO)
+                {
+                    ServoMove(SERVO_2, SERVO_CERRADO);
+                    ESTADO_SERVO_2 = SERVO_CERRADO;
+                }
+
+                // A) SERVO1 OPEN y SERVO2 CLOSED
+            }
+            if (FC2 == false) // Puerta 2 abierta
+            {
+                // B) SERVO1 CLOSED y SERVO2 OPEN
+
+                if (ESTADO_SERVO_1 != SERVO_CERRADO)
+                {
+                    ServoMove(SERVO_1, SERVO_CERRADO);
+                    ESTADO_SERVO_1 = SERVO_CERRADO;
+                }
+            }
+            break;
+        // Dos puertas abiertas
+        case AMBAS_ABIERTAS:
+            /*
+            Error en el sistema, posible falla en el dif de presiones
+            */
+            printf("Ambas abiertas\n");
+            NeoPixelAllColor(NEOPIXEL_COLOR_CYAN);
+
+            break;
+        }
+    }
+}
+
+static void manejarPerifericosTask(){
+
+    while (true)
+    {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        if(ON == true)
+        {
+            manejarServosYLEDs(); 
+        }
+        else
+        {
+            NeoPixelAllOff();
+        }
+
+        ESTADO_ANTERIOR = ESTADO_ACTUAL;
+    }
+}
+
 void detectarFC()
 {
 	uint8_t tecla;
@@ -176,24 +252,6 @@ void detectarFC()
             printf("FC2 esta en%d: \n",FC2);
 			break;
 	}
-}
-static void manejarPerifericosTask()
-{
-    while (true)
-    {
-        printf("TAREA PERIFERICOS\n");
-        if(ON == true)
-        {
-            printf("Servos y leds\n");
-            manejarServosYLEDs(); 
-        }
-        else
-        {
-           NeoPixelAllOff();
-        }
-         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-
-    }
 }
 
 /*==================[external functions definition]==========================*/
@@ -243,8 +301,6 @@ void app_main(void){
 	UartInit(&myUart);
 
     //xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
-
-    //xTaskCreate(&servosyLEDS_task, "Servos y LEDs", 2048, NULL, 5, &servosyLEDs_task_handle);
 
     xTaskCreate(&manejarPerifericosTask, "Servos y LEDs", 2048, NULL, 5, &perifericos_task_handle);  
 }

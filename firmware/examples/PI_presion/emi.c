@@ -1,168 +1,285 @@
-// /*! @mainpage Proyecto Integrador
-//  *
-//  * @section genDesc General Description
-//  *
+/*! @mainpage Proyecto Integrador
+ *
+ * @section genDesc General Description
+ *
 
-//  *
-//  * @section changelog Changelog
-//  *
-//  * |   Date	    | Description                                    |
-//  * |:----------:|:-----------------------------------------------|
-//  * | 02/04/2024 | Document creation		                         |
-//  *
-//  * @author Albano Peñalva (albano.penalva@uner.edu.ar)
-//  *
-//  */
+ *
+ * @section changelog Changelog
+ *
+ * |   Date	    | Description                                    |
+ * |:----------:|:-----------------------------------------------|
+ * | 02/04/2024 | Document creation		                         |
+ *
+ * @author Albano Peñalva (albano.penalva@uner.edu.ar)
+ *
+ */
 
-// /*==================[inclusions]=============================================*/
-// #include <stdio.h>
-// #include <stdint.h>
-// #include <xfpm.h>
-// #include "freertos/FreeRTOS.h"
-// #include "freertos/task.h"
-// #include "timer_mcu.h"
-// #include "uart_mcu.h"
-// #include "switch.h"
-// #include "neopixel_stripe.h"
-// #include <gpio_mcu.h>
-// /*==================[macros and definitions]=================================*/
-// typedef struct {
+/*==================[inclusions]=============================================*/
+#include <stdio.h>
+#include <stdint.h>
+#include <xfpm.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "timer_mcu.h"
+#include "uart_mcu.h"
+#include "switch.h"
+#include "neopixel_stripe.h"
+#include "servo_sg90.h"
+#include <gpio_mcu.h>
+/*==================[macros and definitions]=================================*/
+typedef struct {
 
-//     float presion_min;
-//     float presion_max;
+    float presion_min;
+    float presion_max;
 
-// } PressureValues;
+} PressureValues;
 
-// /*! @brief Período del temporizador en microsegundos */
-// #define CONFIG_BLINK_PERIOD_TIMER_A  1000000
-// #define CONFIG_BLINK_PERIOD_TIMER_B  500000
+/*! @brief Período del temporizador en microsegundos */
+#define CONFIG_BLINK_PERIOD_TIMER_A  1000000
+#define CONFIG_BLINK_PERIOD_TIMER_B  500000
 
-// /*==================[internal data definition]===============================*/
+typedef enum lista_estado_puertas
+{
+    AMBAS_CERRADAS = 0,
+    UNA_CERRADA,
+    AMBAS_ABIERTAS,
 
-// PressureValues* PRESIONES_HAB_LIMPIA;
+} estado_puerta;
 
-// PressureValues* PRESIONES_HAB_SUCIA;
+typedef enum estados_servos
+{
+    SERVO_ABIERTO = 0,
+    SERVO_CERRADO = 90,
 
-// int DIF_PRESION;
+} estado_servo;
 
-// bool FC1 = true; //A chequear
+estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
+estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
 
-// bool FC2 = true; //A chequear
+int ESTADO_ACTUAL = AMBAS_CERRADAS;
+int ESTADO_ANTERIOR = AMBAS_CERRADAS;
 
-// bool ON = true; 
 
-// TaskHandle_t medirPresiones_task_handle = NULL;
-// TaskHandle_t perifericos_task_handle = NULL;
+/*==================[internal data definition]===============================*/
 
-// /*==================[internal functions declaration]=========================*/
+PressureValues* PRESIONES_HAB_LIMPIA;
 
-// void FuncTimerMedirPresiones(void* param)
-// {
-//     vTaskNotifyGiveFromISR(medirPresiones_task_handle, pdFALSE);    	
-// }
+PressureValues* PRESIONES_HAB_SUCIA;
 
-// void FuncTimerManejarPerifericos(void* param)
-// {
-//     vTaskNotifyGiveFromISR(perifericos_task_handle , pdFALSE);    	
-// }
+int DIF_PRESION;
 
-// static void medirPresionesTask()
-// {
-//     while (true)
-//     {
-//         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+bool FC1 = true; //A chequear
 
-//         //Mido presiones y almaceno en las variables globales
-//         PRESIONES_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
-//         PRESIONES_HAB_SUCIA = XFPM050MeasurePressure(CH2);
+bool FC2 = true; //A chequear
+
+bool ON = true; 
+
+TaskHandle_t medirPresiones_task_handle = NULL;
+
+TaskHandle_t perifericos_task_handle = NULL;
+
+/*==================[internal functions declaration]=========================*/
+
+void FuncTimerMedirPresiones(void* param)
+{
+    vTaskNotifyGiveFromISR(medirPresiones_task_handle, pdFALSE);    	
+}
+
+void FuncTimerManejarPerifericos(void* param)
+{
+    vTaskNotifyGiveFromISR(perifericos_task_handle , pdFALSE);    	
+}
+
+static void medirPresionesTask()
+{
+    while (true)
+    {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        //Mido presiones y almaceno en las variables globales
+        PRESIONES_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
+        PRESIONES_HAB_SUCIA = XFPM050MeasurePressure(CH2);
         
 
-//         //Hallo el diferencial de presión y lo almaceno en la variable global
-//         DIF_PRESION = PRESIONES_HAB_LIMPIA->presion_min - PRESIONES_HAB_SUCIA->presion_max;
-//     }
-// }
-// void tecla1()
-// {
-//     ON = !ON
-// }
-// static void manejarPerifericosTask(){
-//     while (true)
-//     {
-//         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+        //Hallo el diferencial de presión y lo almaceno en la variable global
+        DIF_PRESION = PRESIONES_HAB_LIMPIA->presion_min - PRESIONES_HAB_SUCIA->presion_max;
+    }
+}
+void tecla1()
+{
+    ON = !ON
+}
 
-//         if(ON == true)
-//         {
-//             manejarServosYLEDs(); 
-//         }
-//         else
-//         {
-//             NeoPixelAllOff();
-//         }
-//     }
-// }
-// void detectarFC()
-// {
-// 	uint8_t tecla;
-// 	UartReadByte(UART_PC, &tecla);
-// 	switch (tecla)
-// 	{
-// 		case 'A':
-// 			FC1 = !FC1;
-// 			UartSendByte(UART_PC, (char*)&tecla);
-// 			break;
+void detectarFC()
+{
+	uint8_t tecla;
+	UartReadByte(UART_PC, &tecla);
+	switch (tecla)
+	{
+		case 'A':
+			FC1 = !FC1;
+			UartSendByte(UART_PC, (char*)&tecla);
+			break;
 	
-// 		case 'B':
-// 			FC2 = !FC2;
-// 			UartSendByte(UART_PC, (char*)&tecla);
-// 			break;
-// 	}
-// }
-// /*==================[external functions definition]==========================*/
-// void app_main(void){
+		case 'B':
+			FC2 = !FC2;
+			UartSendByte(UART_PC, (char*)&tecla);
+			break;
+	}
+}
 
-//     /*Inicialización de los sensores de presión*/
-//     XFPM050Init(CH1);
-//     XFPM050Init(CH2);
+void leerEstadoDePuertas()
+{
+    if(FC1 && FC2)
+    {
+        ESTADO_ACTUAL = AMBAS_CERRADAS;
+    }
+    else if(FC1 != FC2)
+    {
+        ESTADO_ACTUAL = UNA_CERRADA;
+    }
+    else if (!(FC1 || FC2))
+    {
+        ESTADO_ACTUAL = AMBAS_ABIERTAS;
+    }
+}
+static void manejarPerifericosTask(){
 
-//     SwitchesInit();
-//     SwitchActivInt(SWITCH_1, *tecla1, NULL); 
+    while (true)
+    {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        if(ON == true)
+        {
+            manejarServosYLEDs(); 
+        }
+        else
+        {
+            NeoPixelAllOff();
+        }
+
+        ESTADO_ANTERIOR = ESTADO_ACTUAL;
+    }
+}
+void manejarServosYLEDs()
+{
+    leerEstadoDePuertas();
+
+    if (ESTADO_ACTUAL != ESTADO_ANTERIOR)
+    {
+        
+        switch (ESTADO_ACTUAL)
+        {
+        // Puertas cerradas
+        case AMBAS_CERRADAS:
+            /* LED 1 (verde) encendido
+            SERVO_1 OPEN -> Puerta 1 cerrada
+            SERVO_2 OPEN -> Puerta 2 cerrada */
+
+            NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
+
+            if (ESTADO_SERVO_1 != SERVO_ABIERTO)
+            {
+                ServoMove(SERVO_1, SERVO_ABIERTO);
+                ESTADO_SERVO_1 = SERVO_ABIERTO;
+            }
+            if (ESTADO_SERVO_2 != SERVO_ABIERTO)
+            {
+                ServoMove(SERVO_2, SERVO_ABIERTO);
+                ESTADO_SERVO_2 = SERVO_ABIERTO;
+            }
+
+            printf("Ambas puertas cerradas\n");
+
+            break;
+
+        // Una puerta abierta
+        case UNA_CERRADA:
+            /*
+            Luz amarilla
+            Puerta 1 abierta -> SERVO_2 cerrado
+            o bien
+            Puerta 2 abierta -> SERVO_1 cerrado
+            */
+            NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
+            printf("Una abierta\n");
+            if (FC1 == false) // Puerta 1 abierta
+            {
+                if (ESTADO_SERVO_2 != SERVO_CERRADO)
+                {
+                    ServoMove(SERVO_2, SERVO_CERRADO);
+                    ESTADO_SERVO_2 = SERVO_CERRADO;
+                }
+
+                // A) SERVO1 OPEN y SERVO2 CLOSED
+            }
+            if (FC2 == false) // Puerta 2 abierta
+            {
+                // B) SERVO1 CLOSED y SERVO2 OPEN
+
+                if (ESTADO_SERVO_1 != SERVO_CERRADO)
+                {
+                    ServoMove(SERVO_1, SERVO_CERRADO);
+                    ESTADO_SERVO_1 = SERVO_CERRADO;
+                }
+            }
+            break;
+        // Dos puertas abiertas
+        case AMBAS_ABIERTAS:
+            /*
+            Error en el sistema, posible falla en el dif de presiones
+            */
+            printf("Ambas abiertas\n");
+            NeoPixelAllColor(NEOPIXEL_COLOR_CYAN);
+
+            break;
+        }
+    }
+}
+/*==================[external functions definition]==========================*/
+void app_main(void){
+
+    /*Inicialización de los sensores de presión*/
+    XFPM050Init(CH1);
+    XFPM050Init(CH2);
+
+    SwitchesInit();
+    SwitchActivInt(SWITCH_1, *tecla1, NULL); 
    
-//    	/* Inicialización de timers */
-//     timer_config_t timer_medir_presiones = {
-//         .timer = TIMER_A,
-//         .period = CONFIG_BLINK_PERIOD_TIMER_A,
-//         .func_p = FuncTimerMedirPresiones, //Aca va la funcion de interrupcion
-//         .param_p = NULL
-//     };
-//     TimerInit(&timer_medir_presiones);
-// 	TimerStart(timer_medir_presiones.timer);
+   	/* Inicialización de timers */
+    timer_config_t timer_medir_presiones = {
+        .timer = TIMER_A,
+        .period = CONFIG_BLINK_PERIOD_TIMER_A,
+        .func_p = FuncTimerMedirPresiones, //Aca va la funcion de interrupcion
+        .param_p = NULL
+    };
+    TimerInit(&timer_medir_presiones);
+	TimerStart(timer_medir_presiones.timer);
+
+        timer_config_t timer_per = {
+        .timer = TIMER_B,
+        .period = CONFIG_BLINK_PERIOD_TIMER_B,
+        .func_p = FuncTimerManejarPerifericos, //Aca va la funcion de interrupcion
+        .param_p = NULL
+    };
+    TimerInit(&timer_per);
+	TimerStart(timer_per.timer);
 
 
 
-//         timer_config_t timer_per = {
-//         .timer = TIMER_B,
-//         .period = CONFIG_BLINK_PERIOD_TIMER_B,
-//         .func_p = FuncTimerManejarPerifericos, //Aca va la funcion de interrupcion
-//         .param_p = NULL
-//     };
-//     TimerInit(&timer_per);
-// 	TimerStart(timer_per.timer);
+    //Puerto Serie
+		serial_config_t myUart = {
+		.port = UART_PC,
+		.baud_rate = 9600,
+		.func_p = detectarFC,
+		.param_p = NULL,
+	};
 
 
-
-//     //Puerto Serie
-// 		serial_config_t myUart = {
-// 		.port = UART_PC,
-// 		.baud_rate = 9600,
-// 		.func_p = detectarFC,
-// 		.param_p = NULL,
-// 	};
-
-
-// 	UartInit(&myUart);
+	UartInit(&myUart);
 	
-//     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
-//     xTaskCreate(&manejarPerifericosTask, "Servos y LEDs", 2048, NULL, 5, &perifericos_task_handle);
-// }
+    xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
+    xTaskCreate(&manejarPerifericosTask, "Servos y LEDs", 2048, NULL, 5, &perifericos_task_handle);
+}
 
-// /*==================[end of file]============================================*/
+/*==================[end of file]============================================*/
