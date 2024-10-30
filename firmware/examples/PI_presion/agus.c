@@ -80,19 +80,68 @@
 // }
 
 // /*==================[end of file]============================================*/
-#include "gpio_mcu.h"
+// #include "gpio_mcu.h"
 
-#define GPIO_FC1 GPIO_X
-#define GPIO_FC2 GPIO_Y
+// #define GPIO_FC1 GPIO_X
+// #define GPIO_FC2 GPIO_Y
 
-int8_t FCInit(gpio_t pin){
-	/* GPIO configurations */
-	GPIOInit(pin, GPIO_INPUT);	// FC
-	return true;
-}
+// int8_t FCInit(gpio_t pin){
+// 	/* GPIO configurations */
+// 	GPIOInit(pin, GPIO_INPUT);	// FC
+// 	return true;
+// }
 
-int8_t FCRead(gpio_t pin){
+// int8_t FCRead(gpio_t pin){
 
-    return GPIORead(pin);
+//     return GPIORead(pin);
     
+// }
+#include "ble_mcu.h"
+#define LED_BT	LED_1
+
+
+float PRESION_HAB_LIMPIA;
+
+float PRESION_HAB_SUCIA;
+
+float DIF_PRESION;
+
+//main
+ble_config_t ble_configuration = {
+    "ESP_EDU_1",
+    read_data
+};
+
+BleInit(&ble_configuration);
+
+//para verificar la conexión del bt
+ while(1){
+        vTaskDelay(CONFIG_BLINK_PERIOD / portTICK_PERIOD_MS);
+        switch(BleStatus()){
+            case BLE_OFF:
+                LedOff(LED_BT);
+            break;
+            case BLE_DISCONNECTED:
+                LedToggle(LED_BT);
+            break;
+            case BLE_CONNECTED:
+                LedOn(LED_BT);
+            break;
+        }
+    }
+
+void enviar_datos_bt(){
+
+char presion_hab_limpia_str[20];
+char presion_hab_sucia_str[20];
+char presion_diferencial_str[20];
+
+
+snprintf(presion_hab_limpia_str, sizeof(presion_hab_limpia_str), "*L%.2f*", PRESION_HAB_LIMPIA);
+snprintf(presion_hab_sucia_str, sizeof(presion_hab_sucia_str), "*S%.2f*", PRESION_HAB_SUCIA);
+snprintf(presion_diferencial_str, sizeof(presion_diferencial_str), "*D%.2f*", DIF_PRESION);
+
+BleSendString(presion_hab_limpia_str);
+BleSendString(presion_hab_sucia_str);
+
 }
