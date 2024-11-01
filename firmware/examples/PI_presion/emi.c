@@ -331,3 +331,7 @@
 // }
 
 // /*==================[end of file]============================================*/
+//TODO:
+// AÑADIR BANDERAS PARA QUE LOS SERVOS SOLO CIERREN EN CASO DE QUE LOS FCS ESTÉN HACIENDO CONTACTO (PODRIA SER
+// UNA FUNCION "CERRAR SERVO O ALGO ASI")
+// CORREGIR APP BLE
