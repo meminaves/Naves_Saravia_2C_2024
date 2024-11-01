@@ -293,48 +293,6 @@ void manejarServosYLEDs()
         }
     }
 }
-
-static void manejarPerifericosTask(){
-
-    while (true)
-    {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-
-        if(ON == true)
-        {
-            manejarServosYLEDs(); 
-        }
-        else
-        {
-            NeoPixelAllOff();
-        }
-
-        ESTADO_ANTERIOR_PUERTAS = ESTADO_ACTUAL_PUERTAS;
-        ESTADO_ANTERIOR_DIFERENCIAL_PRESION = ESTADO_ACTUAL_DIFERENCIAL_PRESION;
-    }
-}
-
-void detectarFC()
-{
-	uint8_t tecla;
-	UartReadByte(UART_PC, &tecla);
-	switch (tecla)
-	{
-		case 'A':
-			FC1 = !FC1;
-			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 1");    
-            printf("FC1 esta en%d: \n",FC1);
-			break;
-	
-		case 'B':
-			FC2 = !FC2;
-			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 2");
-            printf("FC2 esta en%d: \n",FC2);
-			break;
-	}
-}
 void enviar_datos_bt()
 {
     // switch(BleStatus())
@@ -371,6 +329,49 @@ void enviar_datos_bt()
         }
 
         //vTaskDelay(CONFIG_BLINK_PERIOD_TIMER_C/portTICK_PERIOD_MS); 
+}
+
+static void manejarPerifericosTask(){
+
+    while (true)
+    {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        if(ON == true)
+        {
+            manejarServosYLEDs(); 
+            enviar_datos_bt();
+        }
+        else
+        {
+            NeoPixelAllOff();
+        }
+
+        ESTADO_ANTERIOR_PUERTAS = ESTADO_ACTUAL_PUERTAS;
+        ESTADO_ANTERIOR_DIFERENCIAL_PRESION = ESTADO_ACTUAL_DIFERENCIAL_PRESION;
+    }
+}
+
+void detectarFC()
+{
+	uint8_t tecla;
+	UartReadByte(UART_PC, &tecla);
+	switch (tecla)
+	{
+		case 'A':
+			FC1 = !FC1;
+			UartSendByte(UART_PC, (char*)&tecla);
+            printf("Cambia estado puerta 1");    
+            printf("FC1 esta en%d: \n",FC1);
+			break;
+	
+		case 'B':
+			FC2 = !FC2;
+			UartSendByte(UART_PC, (char*)&tecla);
+            printf("Cambia estado puerta 2");
+            printf("FC2 esta en%d: \n",FC2);
+			break;
+	}
 }
 
 
