@@ -80,6 +80,13 @@ bool FC1;
 
 bool FC2;
 
+typedef enum estados_FCs
+{
+    FC_abierto = true,
+    FC_cerrado = false,
+
+} estado_FC;
+
 bool ON = true;
 
 TaskHandle_t medirPresiones_task_handle = NULL;
@@ -103,6 +110,7 @@ typedef enum estados_servos
 
 } estado_servo;
 
+
 estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
 estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
 
@@ -113,6 +121,50 @@ bool ESTADO_ACTUAL_DIFERENCIAL_PRESION ;
 bool ESTADO_ANTERIOR_DIFERENCIAL_PRESION = -1;
  
 /*==================[internal functions declaration]=========================*/
+
+void cerrarServo(int SERVO)
+{
+    switch (SERVO)
+    {
+    case SERVO_1:
+        if (ESTADO_SERVO_1 != SERVO_CERRADO && FC1 == FC_cerrado)
+        {
+            ServoMove(SERVO_1, SERVO_CERRADO);
+            ESTADO_SERVO_1 = SERVO_CERRADO;
+        }
+        break;
+    
+    case SERVO_2:
+        if (ESTADO_SERVO_2 != SERVO_CERRADO && FC2 == FC_cerrado)
+        {
+            ServoMove(SERVO_2, SERVO_CERRADO);
+            ESTADO_SERVO_2 = SERVO_CERRADO;
+        }
+        break;
+    }
+}
+void abrirServo(int SERVO)
+{
+    switch(SERVO)
+    {
+    case SERVO_1:
+    
+        if (ESTADO_SERVO_1 != SERVO_ABIERTO && FC1 == FC_cerrado)
+        {
+            ServoMove(SERVO_1, SERVO_ABIERTO);
+            ESTADO_SERVO_1 = SERVO_ABIERTO;
+        }
+    break;
+
+    case SERVO_2:
+        if (ESTADO_SERVO_2 != SERVO_ABIERTO && FC2 == FC_cerrado)
+        {
+            ServoMove(SERVO_2, SERVO_ABIERTO);
+            ESTADO_SERVO_2 = SERVO_ABIERTO;
+        }
+        break;
+    }
+}
 
 void FuncTimerMedirPresiones(void* param)
 {
@@ -190,16 +242,8 @@ void moverServos()
 
                 NeoPixelAllColor(NEOPIXEL_COLOR_GREEN);
 
-                if (ESTADO_SERVO_1 != SERVO_ABIERTO)
-                {
-                    ServoMove(SERVO_1, SERVO_ABIERTO);
-                    ESTADO_SERVO_1 = SERVO_ABIERTO;
-                }
-                if (ESTADO_SERVO_2 != SERVO_ABIERTO)
-                {
-                    ServoMove(SERVO_2, SERVO_ABIERTO);
-                    ESTADO_SERVO_2 = SERVO_ABIERTO;
-                }
+                abrirServo(SERVO_1);
+                abrirServo(SERVO_2);
 
                 printf("Ambas puertas cerradas\n");
 
@@ -217,11 +261,7 @@ void moverServos()
                 printf("Una abierta\n");
                 if (FC1 == false) // Puerta 1 abierta
                 {
-                    if (ESTADO_SERVO_2 != SERVO_CERRADO)
-                    {
-                        ServoMove(SERVO_2, SERVO_CERRADO);
-                        ESTADO_SERVO_2 = SERVO_CERRADO;
-                    }
+                    cerrarServo(SERVO_2);
 
                     // A) SERVO1 OPEN y SERVO2 CLOSED
                 }
@@ -229,11 +269,7 @@ void moverServos()
                 {
                     // B) SERVO1 CLOSED y SERVO2 OPEN
 
-                    if (ESTADO_SERVO_1 != SERVO_CERRADO)
-                    {
-                        ServoMove(SERVO_1, SERVO_CERRADO);
-                        ESTADO_SERVO_1 = SERVO_CERRADO;
-                    }
+                    cerrarServo(SERVO_1);
                 }
                 break;
             // Dos puertas abiertas
@@ -259,32 +295,24 @@ void manejarServosYLEDs()
 
     if (ESTADO_ACTUAL_DIFERENCIAL_PRESION != ESTADO_ANTERIOR_DIFERENCIAL_PRESION)
     {
+            //Si no se cumple el diferencial se cierra todo
             if (ESTADO_ACTUAL_DIFERENCIAL_PRESION == false)
             {
                 NeoPixelAllColor(NEOPIXEL_COLOR_ORANGE);
                 
-                if (ESTADO_SERVO_2 != SERVO_CERRADO)
-                {
-                    ServoMove(SERVO_2, SERVO_CERRADO);
-                    ESTADO_SERVO_2 = SERVO_CERRADO;
-                }
-
-                if (ESTADO_SERVO_1 != SERVO_CERRADO)
-                {
-                    ServoMove(SERVO_1, SERVO_CERRADO);
-                    ESTADO_SERVO_1 = SERVO_CERRADO;
-                }    
+                cerrarServo(SERVO_1);
+                cerrarServo(SERVO_2);  
             }
 
             else
             {
                 moverServos();
             }
+            
     }
     // Si se cumple el diferencial de presion...
     if(ESTADO_ACTUAL_DIFERENCIAL_PRESION == true)
     { 
-
         leerEstadoDePuertas();
 
         if (ESTADO_ACTUAL_PUERTAS != ESTADO_ANTERIOR_PUERTAS)

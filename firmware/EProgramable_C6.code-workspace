@@ -99,7 +99,10 @@
             "i2c.h": "c",
             "xfpm050k.h": "c",
             "pwm_mcu.h": "c",
-            "xlocale": "c"
+            "xlocale": "c",
+            "xfpm.h": "c",
+            "ble_mcu.h": "c",
+            "servo_sg90.h": "c"
         },
     },
     "tasks": {
