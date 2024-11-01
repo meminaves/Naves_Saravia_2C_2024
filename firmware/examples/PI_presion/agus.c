@@ -93,7 +93,7 @@
 
 // int8_t FCRead(gpio_t pin){
 
-//     return GPIORead(pin);
+//    return GPIORead(pin);
     
 // }
 #include "ble_mcu.h"
@@ -135,6 +135,7 @@ void enviar_datos_bt(){
 char presion_hab_limpia_str[20];
 char presion_hab_sucia_str[20];
 char presion_diferencial_str[20];
+char 
 
 
 snprintf(presion_hab_limpia_str, sizeof(presion_hab_limpia_str), "*L%.2f*", PRESION_HAB_LIMPIA);
@@ -143,5 +144,6 @@ snprintf(presion_diferencial_str, sizeof(presion_diferencial_str), "*D%.2f*", DI
 
 BleSendString(presion_hab_limpia_str);
 BleSendString(presion_hab_sucia_str);
+BleSendString(presion_diferencial_str);
 
 }
