@@ -322,10 +322,15 @@ void enviar_datos_bt()
 
         if (DIF_PRESION < DIF_PRESION_MIN)
         {
-            // char luz[20] = "*FR255G0B0*";
-            // BleSendString(luz);
-            // char volumen[10] = "*VV100*";
-            // BleSendString(volumen);
+            char luz[20] = "*FR255G0B0*";
+            BleSendString(luz);
+            char volumen[10] = "*VV100*";
+            BleSendString(volumen);
+        }
+        else
+        {
+            char luz[20] = "*FR0G255B0*";
+            BleSendString(luz);
         }
 
         //vTaskDelay(CONFIG_BLINK_PERIOD_TIMER_C/portTICK_PERIOD_MS); 
