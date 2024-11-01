@@ -25,50 +25,30 @@
 #include "analog_io_mcu.h"
 #include <gpio_mcu.h>
 #include "ble_mcu.h"
-
 #include "led.h"
 #include "servo_sg90.h"
 #include "pwm_mcu.h"
 #include "neopixel_stripe.h"
 #include <gpio_mcu.h>
+
 /*==================[macros and definitions]=================================*/
 
-/*! @brief Período del temporizador en microsegundos */
 #define CONFIG_BLINK_PERIOD_TIMER_A 1000000
 #define CONFIG_BLINK_PERIOD_TIMER_B 1000000
-#define CONFIG_BLINK_PERIOD_TIMER_C 500
-
+#define CONFIG_BLINK_PERIOD 500
 #define TOTAL_BITS 4096           /**< Cantidad total de bits del ADC */ //A CHEQUEAR
-
 #define NEOPIXEL_COLOR_RED            0x00FF0000  /*> Color red */
 #define NEOPIXEL_COLOR_YELLOW         0x007F7F00  /*> Color yellow */
 #define NEOPIXEL_COLOR_GREEN          0x0000FF00  /*> Color green */
-
 #define RETARDO_SERVOS 1000
 #define LED_BT LED_1
-
-float DIF_PRESION_MIN = 5.0f;
-
-// bool FC1;
-// bool FC2;
-// false = puerta abierta
-// true = puerta cerrada
-
-/*==================[internal data definition]===============================*/
 #define GPIO_FC1 GPIO_20
 #define GPIO_FC2 GPIO_22
 
-int8_t FCInit(gpio_t pin)
-{
-	/* GPIO configurations */
-	GPIOInit(pin, GPIO_INPUT);	// FC
-	return true;
-}
+float DIF_PRESION_MIN = 5.0f;
 
-int8_t FCRead(gpio_t pin)
-{
-    return GPIORead(pin);
-}
+/*==================[internal data definition]===============================*/
+
 
 float PRESION_HAB_LIMPIA;
 
@@ -95,6 +75,10 @@ TaskHandle_t FCs_task_handle = NULL;
 
 TaskHandle_t perifericos_task_handle = NULL;
 
+bool ESTADO_ACTUAL_DIFERENCIAL_PRESION ;
+
+bool ESTADO_ANTERIOR_DIFERENCIAL_PRESION = -1;
+
 typedef enum lista_estado_puertas
 {
     AMBAS_CERRADAS,
@@ -103,6 +87,9 @@ typedef enum lista_estado_puertas
 
 } estado_puerta;
 
+estado_puerta ESTADO_ACTUAL_PUERTAS = -1;
+estado_puerta ESTADO_ANTERIOR_PUERTAS = -1;
+
 typedef enum estados_servos
 {
     SERVO_ABIERTO = 45,
@@ -110,15 +97,20 @@ typedef enum estados_servos
 
 } estado_servo;
 
-
 estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
 estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
 
-estado_puerta ESTADO_ACTUAL_PUERTAS = -1;
-estado_puerta ESTADO_ANTERIOR_PUERTAS = -1;
+int8_t FCInit(gpio_t pin)
+{
+	/* GPIO configurations */
+	GPIOInit(pin, GPIO_INPUT);	// FC
+	return true;
+}
 
-bool ESTADO_ACTUAL_DIFERENCIAL_PRESION ;
-bool ESTADO_ANTERIOR_DIFERENCIAL_PRESION = -1;
+int8_t FCRead(gpio_t pin)
+{
+    return GPIORead(pin);
+}
  
 /*==================[internal functions declaration]=========================*/
 
@@ -176,16 +168,11 @@ void FuncTimerManejarPerifericos(void* param)
     vTaskNotifyGiveFromISR(perifericos_task_handle , pdFALSE);    	
 }
 
-// void FuncTimerFCs(void* param)
-// {
-//     vTaskNotifyGiveFromISR(FCs_task_handle , pdFALSE);    	
-// }
-
 static void medirPresionesTask()
 {
     while (true)
     {
-       ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
         //Mido presiones y almaceno en las variables globales
         PRESION_HAB_LIMPIA = XFPM050MeasurePressure(CH1); /*El area limpia debe estar a mayor presión*/
@@ -324,19 +311,6 @@ void manejarServosYLEDs()
 }
 void enviar_datos_bt()
 {
-    // switch(BleStatus())
-    // {
-    //         case BLE_OFF:
-    //             LedOff(LED_BT);
-    //         break;
-    //         case BLE_DISCONNECTED:
-    //             LedToggle(LED_BT);
-    //         break;
-    //         case BLE_CONNECTED:
-    //             LedOn(LED_BT);
-    //         break;
-    // }
-
     char presion_hab_limpia_str[20];
     char presion_hab_sucia_str[20];
     char presion_diferencial_str[20];
@@ -362,7 +336,6 @@ void enviar_datos_bt()
             BleSendString(luz);
         }
 
-        //vTaskDelay(CONFIG_BLINK_PERIOD_TIMER_C/portTICK_PERIOD_MS); 
 }
 
 static void manejarPerifericosTask(){
@@ -413,8 +386,6 @@ void leerFCsTask()
 {
     while (true)
     {
- 
-
         printf("Leyendo finales de carrera...\n");
         printf("FC1: %d", FC1);
         printf("\n");
@@ -424,8 +395,7 @@ void leerFCsTask()
         FC1 = FCRead(GPIO_FC1);
         FC2 = FCRead(GPIO_FC2);
 
-        vTaskDelay(CONFIG_BLINK_PERIOD_TIMER_C / portTICK_PERIOD_MS);
-
+        vTaskDelay(CONFIG_BLINK_PERIOD / portTICK_PERIOD_MS);
     }
 }
 
@@ -441,8 +411,7 @@ void app_main(void){
     BLE_NO_INT
     };
 
-BleInit(&ble_configuration);
-
+    BleInit(&ble_configuration);
 
     ServoInit(SERVO_1, GPIO_23);//Falta definir gpio
     ServoInit(SERVO_2, GPIO_21);
@@ -475,24 +444,6 @@ BleInit(&ble_configuration);
     TimerInit(&timer_per);
 	TimerStart(timer_per.timer);
 
-    //     timer_config_t timer_FCs = {
-    //     .timer = TIMER_C,
-    //     .period = CONFIG_BLINK_PERIOD_TIMER_C,
-    //     .func_p = FuncTimerFCs, //Aca va la funcion de interrupcion
-    //     .param_p = NULL
-    // };
-    // TimerInit(&timer_FCs);
-	// TimerStart(timer_FCs.timer);
-
-    //Puerto Serie
-		serial_config_t myUart = {
-		.port = UART_PC,
-		.baud_rate = 9600,
-		.func_p = detectarFC,
-		.param_p = NULL,
-	};
-
-	UartInit(&myUart);
 
     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
 
