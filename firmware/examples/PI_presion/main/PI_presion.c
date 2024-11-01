@@ -203,6 +203,7 @@ static void medirPresionesTask()
 void leerEstadoDePuertas()
 {
     //ESTADO DE PUERTAS
+
     if(FC1 && FC2)
     {
         ESTADO_ACTUAL_PUERTAS = AMBAS_ABIERTAS;
@@ -259,13 +260,13 @@ void moverServos()
                 */
                 NeoPixelAllColor(NEOPIXEL_COLOR_YELLOW);
                 printf("Una abierta\n");
-                if (FC1 == false) // Puerta 1 abierta
+                if (FC1 == FC_abierto) // Puerta 1 abierta
                 {
                     cerrarServo(SERVO_2);
 
                     // A) SERVO1 OPEN y SERVO2 CLOSED
                 }
-                if (FC2 == false) // Puerta 2 abierta
+                if (FC2 == FC_abierto) // Puerta 2 abierta
                 {
                     // B) SERVO1 CLOSED y SERVO2 OPEN
 
@@ -308,7 +309,7 @@ void manejarServosYLEDs()
             {
                 moverServos();
             }
-            
+
     }
     // Si se cumple el diferencial de presion...
     if(ESTADO_ACTUAL_DIFERENCIAL_PRESION == true)
