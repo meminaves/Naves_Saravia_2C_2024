@@ -1,8 +1,17 @@
 /*! @mainpage Proyecto Integrador
  *
- * @section genDesc General Description
+ * @section Descripcion General
  *
-
+ * @section Conexión de Hardware
+ * 
+ * | Peripheral  | ESP32        |
+ * |-------------|--------------|
+ * |  LED RGB    | GPIO_8       |
+ * |  SERVO 1    | GPIO_23      |
+ * |  SERVO 2    | GPIO_21      |
+ * |  FC 1       | GPIO_20      |
+ * |  FC 2       | GPIO_22      |
+ *
  *
  * @section changelog Changelog
  *
@@ -10,7 +19,8 @@
  * |:----------:|:-----------------------------------------------|
  * | 02/04/2024 | Document creation		                         |
  *
- * @author Albano Peñalva (albano.penalva@uner.edu.ar)
+ * @author Naves Maria Emilia (maria.naves@ingenieria.uner.edu.ar)
+ * @author Saravia Valdéz Agustín (albano.penalva@uner.edu.ar)
  *
  */
 
@@ -32,32 +42,85 @@
 #include <gpio_mcu.h>
 
 /*==================[macros and definitions]=================================*/
-
+/**
+ * @def CONFIG_BLINK_PERIOD_TIMER_A
+ * @brief  Período de configuración para el temporizador A correspondiente a medir presiones
+ */
 #define CONFIG_BLINK_PERIOD_TIMER_A 1000000
+/**
+ * @def CONFIG_BLINK_PERIOD_TIMER_B
+ * @brief  Período de configuración para el temporizador B correspondiente a manejar los perifericos
+ */
 #define CONFIG_BLINK_PERIOD_TIMER_B 1000000
+/**
+ * @def CONFIG_BLINK_PERIOD
+ * @brief  Período de configuración para el temporizador de la tarea correspondiente leer el estados de los FCs
+ */
 #define CONFIG_BLINK_PERIOD 500
+
 #define TOTAL_BITS 4096           /**< Cantidad total de bits del ADC */ //A CHEQUEAR
+/**
+ * @def NEOPIXEL_COLOR_RED
+ * @brief  Valor en hexadecimal del color rojo
+ */
 #define NEOPIXEL_COLOR_RED            0x00FF0000  /*> Color red */
+/**
+ * @def NEOPIXEL_COLOR_YELLOW
+ * @brief  Valor en hexadecimal del color amarillo
+ */
 #define NEOPIXEL_COLOR_YELLOW         0x007F7F00  /*> Color yellow */
+/**
+ * @def NEOPIXEL_COLOR_GREEN
+ * @brief  Valor en hexadecimal del color verde
+ */
 #define NEOPIXEL_COLOR_GREEN          0x0000FF00  /*> Color green */
+/**
+ * @def RETARDO_SERVOS
+ * @brief   
+ */
 #define RETARDO_SERVOS 1000
-#define LED_BT LED_1
+/**
+ * @def GPIO_FC1
+ * @brief  GPIO para el final de carrera 1 (FC1)
+ */
 #define GPIO_FC1 GPIO_20
+/**
+ * @def GPIO_FC2
+ * @brief  GPIO para el final de carrera 2 (FC2)
+ */
 #define GPIO_FC2 GPIO_22
-
+/**
+ * @def DIF_PRESION_MIN
+ * @brief  Valor minimo del diferencial de presiones
+ */
 float DIF_PRESION_MIN = 5.0f;
-
+//#define LED_BT LED_1
 /*==================[internal data definition]===============================*/
 
-
+/**
+ * @def PRESION_HAB_LIMPIA
+ * @brief  Variable donde se almacena el valor de presion en kPa de la habiatación limpia(la de mayor presión)
+ */
 float PRESION_HAB_LIMPIA;
-
+/**
+ * @def PRESION_HAB_SUCIA
+ * @brief  Variable donde se almacena el valor de presion en kPa de la habiatación sucia(la de menor presión)
+ */
 float PRESION_HAB_SUCIA;
-
+/**
+ * @def DIF_PRESION
+ * @brief  Variable donde se almacena el valor de presion en kPa de la diferencia de presiones entre HAB_LIMPIA y HAB_SUCIA
+ */
 float DIF_PRESION;
-
+/**
+ * @def FC1
+ * @brief  Variable que indica el estado de las puerta 1 correspondiente a final de carrea 1 (true: abierto, false: cerrado)
+ */
 bool FC1;
-
+/**
+ * @def FC2
+ * @brief  Variable que indica el estado de las puerta 2 correspondiente a final de carrea 2 (true: abierto, false: cerrado)
+ */
 bool FC2;
 
 typedef enum estados_FCs
@@ -100,6 +163,9 @@ typedef enum estados_servos
 estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
 estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
 
+
+ 
+/*==================[internal functions declaration]=========================*/
 int8_t FCInit(gpio_t pin)
 {
 	/* GPIO configurations */
@@ -111,9 +177,6 @@ int8_t FCRead(gpio_t pin)
 {
     return GPIORead(pin);
 }
- 
-/*==================[internal functions declaration]=========================*/
-
 void cerrarServo(int SERVO)
 {
     switch (SERVO)
