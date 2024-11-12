@@ -1,6 +1,13 @@
 /*! @mainpage Proyecto Integrador
  *
  * @section Descripcion General
+ * 
+ * El programa es un control de área limpia. Mide las presiones de la sala que necesitemos que sea una sala limpia y la de una sala
+ * que consideraremos como "sucia" que será la antesala. Lee el estado de las puertas del cuarto intermedio entre estas salas y en función
+ * de los finales de carrera de cada puerta(FC1 y FC2) maneja un par de servos. En cuanto a los servos, para un ángulo de 45° la puerta
+ * estará disponible para abrir, mientras que para un ángulo de -45° no se podrá abrir. El estado de las puertas es además indicado con el
+ * LED RGB de la placa ESP-EDU. Finalmente el programa permite enviar datos mediante bluetooth a la apliación "Bluetooth Electronics" que deberá
+ * estar instalada en el dispositivo correspondiente con su respectivo formato.
  *
  * @section Conexión de Hardware
  * 
@@ -17,11 +24,10 @@
  *
  * |   Date	    | Description                                    |
  * |:----------:|:-----------------------------------------------|
- * | 02/04/2024 | Document creation		                         |
+ * | 12/11/2024 | Documento terminado		                     |
  *
- * @author Naves Maria Emilia (maria.naves@ingenieria.uner.edu.ar)
- * @author Saravia Valdéz Agustín (albano.penalva@uner.edu.ar)
- *
+ * @author Naves Maria Emilia (maria.naves@ingenieria.uner.edu.ar) y Saravia Valdéz Agustín (albano.penalva@uner.edu.ar)
+ * 
  */
 
 /*==================[inclusions]=============================================*/

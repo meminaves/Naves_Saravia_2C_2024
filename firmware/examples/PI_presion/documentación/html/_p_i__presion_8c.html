@@ -1,0 +1,1305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Proyecto Final - Naves - Saravia: Referencia del archivo C:/Repositorios/Naves_Saravia_2C_2024/firmware/examples/PI_presion/main/PI_presion.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="fiuner.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">Proyecto Final - Naves - Saravia<span id="projectnumber">&#160;1.0</span>
+   </div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_p_i__presion_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">defines</a> &#124;
+<a href="#typedef-members">typedefs</a> &#124;
+<a href="#enum-members">Enumeraciones</a> &#124;
+<a href="#func-members">Funciones</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">Referencia del archivo PI_presion.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="xfpm_8h_source.html">xfpm.h</a>&quot;</code><br />
+<code>#include &quot;freertos/FreeRTOS.h&quot;</code><br />
+<code>#include &quot;freertos/task.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="timer__mcu_8h_source.html">timer_mcu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="uart__mcu_8h_source.html">uart_mcu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="analog__io__mcu_8h_source.html">analog_io_mcu.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="gpio__mcu_8h_source.html">gpio_mcu.h</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="ble__mcu_8h_source.html">ble_mcu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="led_8h_source.html">led.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="servo__sg90_8h_source.html">servo_sg90.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="pwm__mcu_8h_source.html">pwm_mcu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="neopixel__stripe_8h_source.html">neopixel_stripe.h</a>&quot;</code><br />
+</div>
+<p><a href="_p_i__presion_8c_source.html">Ir al código fuente de este archivo.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+defines</h2></td></tr>
+<tr class="memitem:a537a598d1427f8eee034823f9791076b" id="r_a537a598d1427f8eee034823f9791076b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a537a598d1427f8eee034823f9791076b">CONFIG_BLINK_PERIOD_TIMER_A</a>&#160;&#160;&#160;1000000</td></tr>
+<tr class="memdesc:a537a598d1427f8eee034823f9791076b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Período de configuración para el temporizador A correspondiente a medir presiones.  <br /></td></tr>
+<tr class="separator:a537a598d1427f8eee034823f9791076b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e8a8202c61d3cca167c527c1f28711" id="r_a84e8a8202c61d3cca167c527c1f28711"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84e8a8202c61d3cca167c527c1f28711">CONFIG_BLINK_PERIOD_TIMER_B</a>&#160;&#160;&#160;1000000</td></tr>
+<tr class="memdesc:a84e8a8202c61d3cca167c527c1f28711"><td class="mdescLeft">&#160;</td><td class="mdescRight">Período de configuración para el temporizador B correspondiente a manejar los perifericos.  <br /></td></tr>
+<tr class="separator:a84e8a8202c61d3cca167c527c1f28711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3df1b4cad09974bfc68858fad7cdc054" id="r_a3df1b4cad09974bfc68858fad7cdc054"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3df1b4cad09974bfc68858fad7cdc054">CONFIG_BLINK_PERIOD</a>&#160;&#160;&#160;500</td></tr>
+<tr class="memdesc:a3df1b4cad09974bfc68858fad7cdc054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Período de configuración para el temporizador de la tarea correspondiente leer el estados de los FCs.  <br /></td></tr>
+<tr class="separator:a3df1b4cad09974bfc68858fad7cdc054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32f09dc6ffd60fee4ba2e4aef1564505" id="r_a32f09dc6ffd60fee4ba2e4aef1564505"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32f09dc6ffd60fee4ba2e4aef1564505">TOTAL_BITS</a>&#160;&#160;&#160;4096</td></tr>
+<tr class="separator:a32f09dc6ffd60fee4ba2e4aef1564505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1dcc1fe1f1ec8488bc4185597108f2" id="r_a2e1dcc1fe1f1ec8488bc4185597108f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e1dcc1fe1f1ec8488bc4185597108f2">NEOPIXEL_COLOR_RED</a>&#160;&#160;&#160;0x00FF0000  /*&gt; Color red */</td></tr>
+<tr class="memdesc:a2e1dcc1fe1f1ec8488bc4185597108f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valor en hexadecimal del color rojo.  <br /></td></tr>
+<tr class="separator:a2e1dcc1fe1f1ec8488bc4185597108f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c4bcd376cbef7becd93531c1031df6" id="r_a94c4bcd376cbef7becd93531c1031df6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94c4bcd376cbef7becd93531c1031df6">NEOPIXEL_COLOR_YELLOW</a>&#160;&#160;&#160;0x007F7F00  /*&gt; Color yellow */</td></tr>
+<tr class="memdesc:a94c4bcd376cbef7becd93531c1031df6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valor en hexadecimal del color amarillo.  <br /></td></tr>
+<tr class="separator:a94c4bcd376cbef7becd93531c1031df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8188c114d2342b3ca60466df01c7111" id="r_ac8188c114d2342b3ca60466df01c7111"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8188c114d2342b3ca60466df01c7111">NEOPIXEL_COLOR_GREEN</a>&#160;&#160;&#160;0x0000FF00  /*&gt; Color green */</td></tr>
+<tr class="memdesc:ac8188c114d2342b3ca60466df01c7111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valor en hexadecimal del color verde.  <br /></td></tr>
+<tr class="separator:ac8188c114d2342b3ca60466df01c7111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1b3b3400bc2f9fd879243835019a600" id="r_ac1b3b3400bc2f9fd879243835019a600"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1b3b3400bc2f9fd879243835019a600">RETARDO_SERVOS</a>&#160;&#160;&#160;1000</td></tr>
+<tr class="memdesc:ac1b3b3400bc2f9fd879243835019a600"><td class="mdescLeft">&#160;</td><td class="mdescRight"><br  />
+  <br /></td></tr>
+<tr class="separator:ac1b3b3400bc2f9fd879243835019a600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7190135146b7b9d3c8dc218a967853c6" id="r_a7190135146b7b9d3c8dc218a967853c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7190135146b7b9d3c8dc218a967853c6">GPIO_FC1</a>&#160;&#160;&#160;<a class="el" href="group___g_i_o_p.html#ggaf65604147d0244c9b13cfdc865ad5393a081be372da926e3ca6f612b267854e95">GPIO_20</a></td></tr>
+<tr class="memdesc:a7190135146b7b9d3c8dc218a967853c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO para el final de carrera 1 (FC1)  <br /></td></tr>
+<tr class="separator:a7190135146b7b9d3c8dc218a967853c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5020d46f1f4c3ef0bbd74eec36c0fca" id="r_ae5020d46f1f4c3ef0bbd74eec36c0fca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5020d46f1f4c3ef0bbd74eec36c0fca">GPIO_FC2</a>&#160;&#160;&#160;<a class="el" href="group___g_i_o_p.html#ggaf65604147d0244c9b13cfdc865ad5393aca7c5f2acf755d61b35d05ea921c79eb">GPIO_22</a></td></tr>
+<tr class="memdesc:ae5020d46f1f4c3ef0bbd74eec36c0fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO para el final de carrera 2 (FC2)  <br /></td></tr>
+<tr class="separator:ae5020d46f1f4c3ef0bbd74eec36c0fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+typedefs</h2></td></tr>
+<tr class="memitem:a9cdbd937407d9aec55aacb3d61932ee9" id="r_a9cdbd937407d9aec55aacb3d61932ee9"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="#a779c1dfb010eed63659a0951c842094a">estados_FCs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cdbd937407d9aec55aacb3d61932ee9">estado_FC</a></td></tr>
+<tr class="separator:a9cdbd937407d9aec55aacb3d61932ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83f3b93bc8a9b6e852737f7e945418d6" id="r_a83f3b93bc8a9b6e852737f7e945418d6"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93e">lista_estado_puertas</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a></td></tr>
+<tr class="separator:a83f3b93bc8a9b6e852737f7e945418d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e9e8d7b8961e1b7a0fcc8997a5277af" id="r_a7e9e8d7b8961e1b7a0fcc8997a5277af"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bad">estados_servos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a></td></tr>
+<tr class="separator:a7e9e8d7b8961e1b7a0fcc8997a5277af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumeraciones</h2></td></tr>
+<tr class="memitem:a779c1dfb010eed63659a0951c842094a" id="r_a779c1dfb010eed63659a0951c842094a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a779c1dfb010eed63659a0951c842094a">estados_FCs</a> { <a class="el" href="#a779c1dfb010eed63659a0951c842094aae4000aa826cde3e6c3ffee7487bb27f2">FC_abierto</a> = true
+, <a class="el" href="#a779c1dfb010eed63659a0951c842094aa3e222e233ce8fce4ce1ea1855168f1f4">FC_cerrado</a> = false
+ }</td></tr>
+<tr class="separator:a779c1dfb010eed63659a0951c842094a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1f0fb68dff167be555617f9f9b0d93e" id="r_ae1f0fb68dff167be555617f9f9b0d93e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93e">lista_estado_puertas</a> { <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93ea8b4824861badae87c861357c4d84febd">AMBAS_CERRADAS</a>
+, <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93ea74c78959cb77d72b0116048a41107ce4">UNA_CERRADA</a>
+, <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93eae39359477692369a53b93822bf6048c4">AMBAS_ABIERTAS</a>
+ }</td></tr>
+<tr class="separator:ae1f0fb68dff167be555617f9f9b0d93e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a602d9cf74f6e62b23eded25c1db65bad" id="r_a602d9cf74f6e62b23eded25c1db65bad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a602d9cf74f6e62b23eded25c1db65bad">estados_servos</a> { <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0">SERVO_ABIERTO</a> = 45
+, <a class="el" href="#a602d9cf74f6e62b23eded25c1db65badae0b83f8250b0f11d75afd7a882ae7c91">SERVO_CERRADO</a> = -45
+ }</td></tr>
+<tr class="separator:a602d9cf74f6e62b23eded25c1db65bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funciones</h2></td></tr>
+<tr class="memitem:a3ce21ed7cf70a70d6b3b1e5cafe52d62" id="r_a3ce21ed7cf70a70d6b3b1e5cafe52d62"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ce21ed7cf70a70d6b3b1e5cafe52d62">FCInit</a> (<a class="el" href="group___g_i_o_p.html#gac6f7bd4f7ee306a4519f04641cbf2d67">gpio_t</a> pin)</td></tr>
+<tr class="memdesc:a3ce21ed7cf70a70d6b3b1e5cafe52d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función para inicalizar el gpio del final de carrera correspondiente.  <br /></td></tr>
+<tr class="separator:a3ce21ed7cf70a70d6b3b1e5cafe52d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c10a73c9a185ac05c9d0765fd385985" id="r_a9c10a73c9a185ac05c9d0765fd385985"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c10a73c9a185ac05c9d0765fd385985">FCRead</a> (<a class="el" href="group___g_i_o_p.html#gac6f7bd4f7ee306a4519f04641cbf2d67">gpio_t</a> pin)</td></tr>
+<tr class="memdesc:a9c10a73c9a185ac05c9d0765fd385985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función para leer el estado del GPIO(de tipo bool).  <br /></td></tr>
+<tr class="separator:a9c10a73c9a185ac05c9d0765fd385985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13485d75460581727c52b2edcabe762d" id="r_a13485d75460581727c52b2edcabe762d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13485d75460581727c52b2edcabe762d">cerrarServo</a> (int SERVO)</td></tr>
+<tr class="memdesc:a13485d75460581727c52b2edcabe762d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que cierra el servo que se le pase (Servo 1 o 2).  <br /></td></tr>
+<tr class="separator:a13485d75460581727c52b2edcabe762d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb78df86dea2eb48e1a0f003409f545" id="r_aecb78df86dea2eb48e1a0f003409f545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecb78df86dea2eb48e1a0f003409f545">abrirServo</a> (int SERVO)</td></tr>
+<tr class="memdesc:aecb78df86dea2eb48e1a0f003409f545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que abre el servo que se le pase (Servo 1 o 2).  <br /></td></tr>
+<tr class="separator:aecb78df86dea2eb48e1a0f003409f545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c90eadb8a23cd49832bf7307ccc2ce" id="r_a39c90eadb8a23cd49832bf7307ccc2ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39c90eadb8a23cd49832bf7307ccc2ce">FuncTimerMedirPresiones</a> (void *param)</td></tr>
+<tr class="memdesc:a39c90eadb8a23cd49832bf7307ccc2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función asociada al temporizador para la medición de presiones.  <br /></td></tr>
+<tr class="separator:a39c90eadb8a23cd49832bf7307ccc2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6364bad2f2b28ca6e9e9b4da0d47a7" id="r_a4e6364bad2f2b28ca6e9e9b4da0d47a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e6364bad2f2b28ca6e9e9b4da0d47a7">FuncTimerManejarPerifericos</a> (void *param)</td></tr>
+<tr class="memdesc:a4e6364bad2f2b28ca6e9e9b4da0d47a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función asociada al temporizador para el manejo de periféricos.  <br /></td></tr>
+<tr class="separator:a4e6364bad2f2b28ca6e9e9b4da0d47a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c15feddde84793d95a3eb154d439736" id="r_a9c15feddde84793d95a3eb154d439736"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c15feddde84793d95a3eb154d439736">medirPresionesTask</a> ()</td></tr>
+<tr class="memdesc:a9c15feddde84793d95a3eb154d439736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tarea que mide las presiones.  <br /></td></tr>
+<tr class="separator:a9c15feddde84793d95a3eb154d439736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77c173a656824fcbd4e9ebff824aa5fe" id="r_a77c173a656824fcbd4e9ebff824aa5fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77c173a656824fcbd4e9ebff824aa5fe">leerEstadoDePuertas</a> ()</td></tr>
+<tr class="memdesc:a77c173a656824fcbd4e9ebff824aa5fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que lee el estado de las puertas utilizando los finales de carrera respectivos.  <br /></td></tr>
+<tr class="separator:a77c173a656824fcbd4e9ebff824aa5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5208247b29a2be0fdbe832384662b68d" id="r_a5208247b29a2be0fdbe832384662b68d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5208247b29a2be0fdbe832384662b68d">leerEstadoDiferencial</a> ()</td></tr>
+<tr class="memdesc:a5208247b29a2be0fdbe832384662b68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que lee el estado del difererncial de presiones.  <br /></td></tr>
+<tr class="separator:a5208247b29a2be0fdbe832384662b68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19e40e76e428cd02a41976483a917cbc" id="r_a19e40e76e428cd02a41976483a917cbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e40e76e428cd02a41976483a917cbc">controlarServosYRGB</a> ()</td></tr>
+<tr class="memdesc:a19e40e76e428cd02a41976483a917cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que mueve los servos y cambia el color de LED según el estado de las puertas.  <br /></td></tr>
+<tr class="separator:a19e40e76e428cd02a41976483a917cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ecc8747868a92d63d583cd7ca36b088" id="r_a5ecc8747868a92d63d583cd7ca36b088"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ecc8747868a92d63d583cd7ca36b088">manejarServosYLEDs</a> ()</td></tr>
+<tr class="memdesc:a5ecc8747868a92d63d583cd7ca36b088"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que cambia el color del LED a naranja si no se cumple el diferencial de presiones y cierra los servos de ambas puertas.  <br /></td></tr>
+<tr class="separator:a5ecc8747868a92d63d583cd7ca36b088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4720c72fec566da020f6514fd275c3e5" id="r_a4720c72fec566da020f6514fd275c3e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4720c72fec566da020f6514fd275c3e5">enviar_datos_bt</a> ()</td></tr>
+<tr class="memdesc:a4720c72fec566da020f6514fd275c3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que envia los datos por bluetooth a la aplicación. Envía presiones de la salas, el diferencial de presiones y una señal para activar una alarma sonora y una luz en la aplicación.  <br /></td></tr>
+<tr class="separator:a4720c72fec566da020f6514fd275c3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0418d68a5ff2a34653ae73d0d6d63cb3" id="r_a0418d68a5ff2a34653ae73d0d6d63cb3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0418d68a5ff2a34653ae73d0d6d63cb3">manejarPerifericosTask</a> ()</td></tr>
+<tr class="memdesc:a0418d68a5ff2a34653ae73d0d6d63cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tarea para manejar los periféricos: servos y LED RGB.  <br /></td></tr>
+<tr class="separator:a0418d68a5ff2a34653ae73d0d6d63cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7489fe776b45924079f083027771fd4" id="r_ae7489fe776b45924079f083027771fd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7489fe776b45924079f083027771fd4">leerFCsTask</a> ()</td></tr>
+<tr class="memdesc:ae7489fe776b45924079f083027771fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tarea que lee el estado de las finales de carrera para saber si la puerta está abierta o cerrada.  <br /></td></tr>
+<tr class="separator:ae7489fe776b45924079f083027771fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a630544a7f0a2cc40d8a7fefab7e2fe70" id="r_a630544a7f0a2cc40d8a7fefab7e2fe70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a> (void)</td></tr>
+<tr class="separator:a630544a7f0a2cc40d8a7fefab7e2fe70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ab27c7476552fa245774d9b781c19e00b" id="r_ab27c7476552fa245774d9b781c19e00b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab27c7476552fa245774d9b781c19e00b">DIF_PRESION_MIN</a> = 5.0f</td></tr>
+<tr class="separator:ab27c7476552fa245774d9b781c19e00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f07cb0cf1accd2348b60c3f266977ab" id="r_a4f07cb0cf1accd2348b60c3f266977ab"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f07cb0cf1accd2348b60c3f266977ab">PRESION_HAB_LIMPIA</a></td></tr>
+<tr class="separator:a4f07cb0cf1accd2348b60c3f266977ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3361c06661de26675645c8ea44d23362" id="r_a3361c06661de26675645c8ea44d23362"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3361c06661de26675645c8ea44d23362">PRESION_HAB_SUCIA</a></td></tr>
+<tr class="separator:a3361c06661de26675645c8ea44d23362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd75330594952a4eea4686d9e8ce7922" id="r_afd75330594952a4eea4686d9e8ce7922"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd75330594952a4eea4686d9e8ce7922">DIF_PRESION</a></td></tr>
+<tr class="separator:afd75330594952a4eea4686d9e8ce7922"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3314df42b72328e9ea251ea8b4c15e0" id="r_ac3314df42b72328e9ea251ea8b4c15e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3314df42b72328e9ea251ea8b4c15e0">FC1</a></td></tr>
+<tr class="separator:ac3314df42b72328e9ea251ea8b4c15e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03efbef4d7a28e1ae8ec287322cf481e" id="r_a03efbef4d7a28e1ae8ec287322cf481e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03efbef4d7a28e1ae8ec287322cf481e">FC2</a></td></tr>
+<tr class="separator:a03efbef4d7a28e1ae8ec287322cf481e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59f4ce1fa92c713a983055a6f029a0a" id="r_ad59f4ce1fa92c713a983055a6f029a0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad59f4ce1fa92c713a983055a6f029a0a">ON</a> = true</td></tr>
+<tr class="separator:ad59f4ce1fa92c713a983055a6f029a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1862b3c52770a99b1b09225f1608a26a" id="r_a1862b3c52770a99b1b09225f1608a26a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1862b3c52770a99b1b09225f1608a26a">ESTADO_ACTUAL_DIFERENCIAL_PRESION</a></td></tr>
+<tr class="separator:a1862b3c52770a99b1b09225f1608a26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b250ee9dbd644e261d4349b281eedb8" id="r_a1b250ee9dbd644e261d4349b281eedb8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b250ee9dbd644e261d4349b281eedb8">ESTADO_ANTERIOR_DIFERENCIAL_PRESION</a> = -1</td></tr>
+<tr class="separator:a1b250ee9dbd644e261d4349b281eedb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07427f15db83a2a8d375ebca9f55a170" id="r_a07427f15db83a2a8d375ebca9f55a170"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07427f15db83a2a8d375ebca9f55a170">ESTADO_ACTUAL_PUERTAS</a> = -1</td></tr>
+<tr class="separator:a07427f15db83a2a8d375ebca9f55a170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbfb4e66d10ca767676a2462ddbd6ebd" id="r_adbfb4e66d10ca767676a2462ddbd6ebd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbfb4e66d10ca767676a2462ddbd6ebd">ESTADO_ANTERIOR_PUERTAS</a> = -1</td></tr>
+<tr class="separator:adbfb4e66d10ca767676a2462ddbd6ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94fb6a7719a890baff6be778206141e5" id="r_a94fb6a7719a890baff6be778206141e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94fb6a7719a890baff6be778206141e5">ESTADO_SERVO_1</a> = <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0">SERVO_ABIERTO</a></td></tr>
+<tr class="separator:a94fb6a7719a890baff6be778206141e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c8b9caa72a86595a5f31376c5ded8a6" id="r_a6c8b9caa72a86595a5f31376c5ded8a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c8b9caa72a86595a5f31376c5ded8a6">ESTADO_SERVO_2</a> = <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0">SERVO_ABIERTO</a></td></tr>
+<tr class="separator:a6c8b9caa72a86595a5f31376c5ded8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0341f7bd414118679b02d987271f1ff0" id="r_a0341f7bd414118679b02d987271f1ff0"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0341f7bd414118679b02d987271f1ff0">medirPresiones_task_handle</a> = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td></tr>
+<tr class="memdesc:a0341f7bd414118679b02d987271f1ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manejador de la tarea de medir presiones.  <br /></td></tr>
+<tr class="separator:a0341f7bd414118679b02d987271f1ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eba8389e9bfe4779471ee4146a9a2db" id="r_a9eba8389e9bfe4779471ee4146a9a2db"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eba8389e9bfe4779471ee4146a9a2db">FCs_task_handle</a> = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td></tr>
+<tr class="memdesc:a9eba8389e9bfe4779471ee4146a9a2db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manejador de la tarea de los finales de carrera.  <br /></td></tr>
+<tr class="separator:a9eba8389e9bfe4779471ee4146a9a2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a1ee8dcf87528ad03e4e2756d6d8107" id="r_a1a1ee8dcf87528ad03e4e2756d6d8107"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a1ee8dcf87528ad03e4e2756d6d8107">perifericos_task_handle</a> = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td></tr>
+<tr class="memdesc:a1a1ee8dcf87528ad03e4e2756d6d8107"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manejador de la tarea de los periféricos.  <br /></td></tr>
+<tr class="separator:a1a1ee8dcf87528ad03e4e2756d6d8107"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentación de «define»</h2>
+<a id="a3df1b4cad09974bfc68858fad7cdc054" name="a3df1b4cad09974bfc68858fad7cdc054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3df1b4cad09974bfc68858fad7cdc054">&#9670;&#160;</a></span>CONFIG_BLINK_PERIOD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONFIG_BLINK_PERIOD&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Período de configuración para el temporizador de la tarea correspondiente leer el estados de los FCs. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00065">65</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="a537a598d1427f8eee034823f9791076b" name="a537a598d1427f8eee034823f9791076b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a537a598d1427f8eee034823f9791076b">&#9670;&#160;</a></span>CONFIG_BLINK_PERIOD_TIMER_A</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONFIG_BLINK_PERIOD_TIMER_A&#160;&#160;&#160;1000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Período de configuración para el temporizador A correspondiente a medir presiones. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00055">55</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a84e8a8202c61d3cca167c527c1f28711" name="a84e8a8202c61d3cca167c527c1f28711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e8a8202c61d3cca167c527c1f28711">&#9670;&#160;</a></span>CONFIG_BLINK_PERIOD_TIMER_B</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONFIG_BLINK_PERIOD_TIMER_B&#160;&#160;&#160;1000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Período de configuración para el temporizador B correspondiente a manejar los perifericos. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00060">60</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a7190135146b7b9d3c8dc218a967853c6" name="a7190135146b7b9d3c8dc218a967853c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7190135146b7b9d3c8dc218a967853c6">&#9670;&#160;</a></span>GPIO_FC1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GPIO_FC1&#160;&#160;&#160;<a class="el" href="group___g_i_o_p.html#ggaf65604147d0244c9b13cfdc865ad5393a081be372da926e3ca6f612b267854e95">GPIO_20</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GPIO para el final de carrera 1 (FC1) </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00092">92</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="ae5020d46f1f4c3ef0bbd74eec36c0fca" name="ae5020d46f1f4c3ef0bbd74eec36c0fca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5020d46f1f4c3ef0bbd74eec36c0fca">&#9670;&#160;</a></span>GPIO_FC2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GPIO_FC2&#160;&#160;&#160;<a class="el" href="group___g_i_o_p.html#ggaf65604147d0244c9b13cfdc865ad5393aca7c5f2acf755d61b35d05ea921c79eb">GPIO_22</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GPIO para el final de carrera 2 (FC2) </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00097">97</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="ac8188c114d2342b3ca60466df01c7111" name="ac8188c114d2342b3ca60466df01c7111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8188c114d2342b3ca60466df01c7111">&#9670;&#160;</a></span>NEOPIXEL_COLOR_GREEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NEOPIXEL_COLOR_GREEN&#160;&#160;&#160;0x0000FF00  /*&gt; Color green */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Valor en hexadecimal del color verde. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00082">82</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>.</p>
+
+</div>
+</div>
+<a id="a2e1dcc1fe1f1ec8488bc4185597108f2" name="a2e1dcc1fe1f1ec8488bc4185597108f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1dcc1fe1f1ec8488bc4185597108f2">&#9670;&#160;</a></span>NEOPIXEL_COLOR_RED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NEOPIXEL_COLOR_RED&#160;&#160;&#160;0x00FF0000  /*&gt; Color red */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Valor en hexadecimal del color rojo. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00072">72</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>.</p>
+
+</div>
+</div>
+<a id="a94c4bcd376cbef7becd93531c1031df6" name="a94c4bcd376cbef7becd93531c1031df6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94c4bcd376cbef7becd93531c1031df6">&#9670;&#160;</a></span>NEOPIXEL_COLOR_YELLOW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NEOPIXEL_COLOR_YELLOW&#160;&#160;&#160;0x007F7F00  /*&gt; Color yellow */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Valor en hexadecimal del color amarillo. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00077">77</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>.</p>
+
+</div>
+</div>
+<a id="ac1b3b3400bc2f9fd879243835019a600" name="ac1b3b3400bc2f9fd879243835019a600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1b3b3400bc2f9fd879243835019a600">&#9670;&#160;</a></span>RETARDO_SERVOS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RETARDO_SERVOS&#160;&#160;&#160;1000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><br  />
+ </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00087">87</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+</div>
+</div>
+<a id="a32f09dc6ffd60fee4ba2e4aef1564505" name="a32f09dc6ffd60fee4ba2e4aef1564505"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32f09dc6ffd60fee4ba2e4aef1564505">&#9670;&#160;</a></span>TOTAL_BITS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TOTAL_BITS&#160;&#160;&#160;4096</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00067">67</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de «typedef»</h2>
+<a id="a9cdbd937407d9aec55aacb3d61932ee9" name="a9cdbd937407d9aec55aacb3d61932ee9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cdbd937407d9aec55aacb3d61932ee9">&#9670;&#160;</a></span>estado_FC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="#a779c1dfb010eed63659a0951c842094a">estados_FCs</a> <a class="el" href="#a9cdbd937407d9aec55aacb3d61932ee9">estado_FC</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83f3b93bc8a9b6e852737f7e945418d6" name="a83f3b93bc8a9b6e852737f7e945418d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f3b93bc8a9b6e852737f7e945418d6">&#9670;&#160;</a></span>estado_puerta</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93e">lista_estado_puertas</a> <a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7e9e8d7b8961e1b7a0fcc8997a5277af" name="a7e9e8d7b8961e1b7a0fcc8997a5277af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">&#9670;&#160;</a></span>estado_servo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bad">estados_servos</a> <a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de enumeraciones</h2>
+<a id="a779c1dfb010eed63659a0951c842094a" name="a779c1dfb010eed63659a0951c842094a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a779c1dfb010eed63659a0951c842094a">&#9670;&#160;</a></span>estados_FCs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a779c1dfb010eed63659a0951c842094a">estados_FCs</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="a779c1dfb010eed63659a0951c842094aae4000aa826cde3e6c3ffee7487bb27f2" name="a779c1dfb010eed63659a0951c842094aae4000aa826cde3e6c3ffee7487bb27f2"></a>FC_abierto&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a779c1dfb010eed63659a0951c842094aa3e222e233ce8fce4ce1ea1855168f1f4" name="a779c1dfb010eed63659a0951c842094aa3e222e233ce8fce4ce1ea1855168f1f4"></a>FC_cerrado&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00132">132</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+</div>
+</div>
+<a id="a602d9cf74f6e62b23eded25c1db65bad" name="a602d9cf74f6e62b23eded25c1db65bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a602d9cf74f6e62b23eded25c1db65bad">&#9670;&#160;</a></span>estados_servos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bad">estados_servos</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0" name="a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0"></a>SERVO_ABIERTO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a602d9cf74f6e62b23eded25c1db65badae0b83f8250b0f11d75afd7a882ae7c91" name="a602d9cf74f6e62b23eded25c1db65badae0b83f8250b0f11d75afd7a882ae7c91"></a>SERVO_CERRADO&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00172">172</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+</div>
+</div>
+<a id="ae1f0fb68dff167be555617f9f9b0d93e" name="ae1f0fb68dff167be555617f9f9b0d93e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f0fb68dff167be555617f9f9b0d93e">&#9670;&#160;</a></span>lista_estado_puertas</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ae1f0fb68dff167be555617f9f9b0d93e">lista_estado_puertas</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="ae1f0fb68dff167be555617f9f9b0d93ea8b4824861badae87c861357c4d84febd" name="ae1f0fb68dff167be555617f9f9b0d93ea8b4824861badae87c861357c4d84febd"></a>AMBAS_CERRADAS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f0fb68dff167be555617f9f9b0d93ea74c78959cb77d72b0116048a41107ce4" name="ae1f0fb68dff167be555617f9f9b0d93ea74c78959cb77d72b0116048a41107ce4"></a>UNA_CERRADA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae1f0fb68dff167be555617f9f9b0d93eae39359477692369a53b93822bf6048c4" name="ae1f0fb68dff167be555617f9f9b0d93eae39359477692369a53b93822bf6048c4"></a>AMBAS_ABIERTAS&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00158">158</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de funciones</h2>
+<a id="aecb78df86dea2eb48e1a0f003409f545" name="aecb78df86dea2eb48e1a0f003409f545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb78df86dea2eb48e1a0f003409f545">&#9670;&#160;</a></span>abrirServo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void abrirServo </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>SERVO</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que abre el servo que se le pase (Servo 1 o 2). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SERVO</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00241">241</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00179">ESTADO_SERVO_1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00180">ESTADO_SERVO_2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00125">FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00130">FC2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00135">FC_cerrado</a>, <a class="el" href="servo__sg90_8h_source.html#l00033">SERVO_1</a>, <a class="el" href="servo__sg90_8h_source.html#l00034">SERVO_2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00174">SERVO_ABIERTO</a> y <a class="el" href="servo__sg90_8c_source.html#l00051">ServoMove()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>.</p>
+
+</div>
+</div>
+<a id="a630544a7f0a2cc40d8a7fefab7e2fe70" name="a630544a7f0a2cc40d8a7fefab7e2fe70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a630544a7f0a2cc40d8a7fefab7e2fe70">&#9670;&#160;</a></span>app_main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void app_main </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00521">521</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="ble__mcu_8h_source.html#l00030">BLE_NO_INT</a>, <a class="el" href="ble__mcu_8c_source.html#l00452">BleInit()</a>, <a class="el" href="neopixel__stripe_8h_source.html#l00034">BUILT_IN_RGB_LED_LENGTH</a>, <a class="el" href="neopixel__stripe_8h_source.html#l00033">BUILT_IN_RGB_LED_PIN</a>, <a class="el" href="analog__io__mcu_8h_source.html#l00032">CH1</a>, <a class="el" href="analog__io__mcu_8h_source.html#l00033">CH2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00055">CONFIG_BLINK_PERIOD_TIMER_A</a>, <a class="el" href="_p_i__presion_8c_source.html#l00060">CONFIG_BLINK_PERIOD_TIMER_B</a>, <a class="el" href="_p_i__presion_8c_source.html#l00195">FCInit()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00185">FCs_task_handle</a>, <a class="el" href="_p_i__presion_8c_source.html#l00277">FuncTimerManejarPerifericos()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00268">FuncTimerMedirPresiones()</a>, <a class="el" href="gpio__mcu_8h_source.html#l00073">GPIO_21</a>, <a class="el" href="gpio__mcu_8h_source.html#l00075">GPIO_23</a>, <a class="el" href="_p_i__presion_8c_source.html#l00092">GPIO_FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00097">GPIO_FC2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00183">medirPresiones_task_handle</a>, <a class="el" href="_p_i__presion_8c_source.html#l00285">medirPresionesTask()</a>, <a class="el" href="neopixel__stripe_8h_source.html#l00045">NEOPIXEL_COLOR_BLUE</a>, <a class="el" href="neopixel__stripe_8c_source.html#l00058">NeoPixelAllColor()</a>, <a class="el" href="neopixel__stripe_8c_source.html#l00038">NeoPixelInit()</a>, <a class="el" href="ili9341_8c_source.html#l00019">NULL</a>, <a class="el" href="_p_i__presion_8c_source.html#l00187">perifericos_task_handle</a>, <a class="el" href="servo__sg90_8h_source.html#l00033">SERVO_1</a>, <a class="el" href="servo__sg90_8h_source.html#l00034">SERVO_2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00174">SERVO_ABIERTO</a>, <a class="el" href="servo__sg90_8c_source.html#l00033">ServoInit()</a>, <a class="el" href="servo__sg90_8c_source.html#l00051">ServoMove()</a>, <a class="el" href="timer__mcu_8h_source.html#l00040">timer_config_t::timer</a>, <a class="el" href="timer__mcu_8h_source.html#l00032">TIMER_A</a>, <a class="el" href="timer__mcu_8h_source.html#l00033">TIMER_B</a>, <a class="el" href="timer__mcu_8c_source.html#l00067">TimerInit()</a>, <a class="el" href="timer__mcu_8c_source.html#l00116">TimerStart()</a> y <a class="el" href="xfpm_8c_source.html#l00022">XFPM050Init()</a>.</p>
+
+</div>
+</div>
+<a id="a13485d75460581727c52b2edcabe762d" name="a13485d75460581727c52b2edcabe762d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13485d75460581727c52b2edcabe762d">&#9670;&#160;</a></span>cerrarServo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cerrarServo </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>SERVO</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que cierra el servo que se le pase (Servo 1 o 2). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SERVO</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00215">215</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00179">ESTADO_SERVO_1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00180">ESTADO_SERVO_2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00125">FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00130">FC2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00135">FC_cerrado</a>, <a class="el" href="servo__sg90_8h_source.html#l00033">SERVO_1</a>, <a class="el" href="servo__sg90_8h_source.html#l00034">SERVO_2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00175">SERVO_CERRADO</a> y <a class="el" href="servo__sg90_8c_source.html#l00051">ServoMove()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a19e40e76e428cd02a41976483a917cbc" name="a19e40e76e428cd02a41976483a917cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19e40e76e428cd02a41976483a917cbc">&#9670;&#160;</a></span>controlarServosYRGB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void controlarServosYRGB </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que mueve los servos y cambia el color de LED según el estado de las puertas. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00344">344</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00241">abrirServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00162">AMBAS_ABIERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00160">AMBAS_CERRADAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00166">ESTADO_ACTUAL_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00125">FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00130">FC2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00134">FC_abierto</a>, <a class="el" href="_p_i__presion_8c_source.html#l00082">NEOPIXEL_COLOR_GREEN</a>, <a class="el" href="_p_i__presion_8c_source.html#l00072">NEOPIXEL_COLOR_RED</a>, <a class="el" href="_p_i__presion_8c_source.html#l00077">NEOPIXEL_COLOR_YELLOW</a>, <a class="el" href="neopixel__stripe_8c_source.html#l00058">NeoPixelAllColor()</a>, <a class="el" href="servo__sg90_8h_source.html#l00033">SERVO_1</a>, <a class="el" href="servo__sg90_8h_source.html#l00034">SERVO_2</a> y <a class="el" href="_p_i__presion_8c_source.html#l00161">UNA_CERRADA</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a4720c72fec566da020f6514fd275c3e5" name="a4720c72fec566da020f6514fd275c3e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4720c72fec566da020f6514fd275c3e5">&#9670;&#160;</a></span>enviar_datos_bt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enviar_datos_bt </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que envia los datos por bluetooth a la aplicación. Envía presiones de la salas, el diferencial de presiones y una señal para activar una alarma sonora y una luz en la aplicación. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00447">447</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="ble__mcu_8c_source.html#l00544">BleSendString()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00120">DIF_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00102">DIF_PRESION_MIN</a>, <a class="el" href="_p_i__presion_8c_source.html#l00110">PRESION_HAB_LIMPIA</a> y <a class="el" href="_p_i__presion_8c_source.html#l00115">PRESION_HAB_SUCIA</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a>.</p>
+
+</div>
+</div>
+<a id="a3ce21ed7cf70a70d6b3b1e5cafe52d62" name="a3ce21ed7cf70a70d6b3b1e5cafe52d62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ce21ed7cf70a70d6b3b1e5cafe52d62">&#9670;&#160;</a></span>FCInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t FCInit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___g_i_o_p.html#gac6f7bd4f7ee306a4519f04641cbf2d67">gpio_t</a></td>          <td class="paramname"><span class="paramname"><em>pin</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función para inicalizar el gpio del final de carrera correspondiente. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>es el GPIO donde está conectado el final de carrera </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00195">195</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="gpio__mcu_8h_source.html#l00043">GPIO_INPUT</a> y <a class="el" href="gpio__mcu_8c_source.html#l00067">GPIOInit()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a9c10a73c9a185ac05c9d0765fd385985" name="a9c10a73c9a185ac05c9d0765fd385985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c10a73c9a185ac05c9d0765fd385985">&#9670;&#160;</a></span>FCRead()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t FCRead </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___g_i_o_p.html#gac6f7bd4f7ee306a4519f04641cbf2d67">gpio_t</a></td>          <td class="paramname"><span class="paramname"><em>pin</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función para leer el estado del GPIO(de tipo bool). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>es el GPIO donde está conectado el final de carrera </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00206">206</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="gpio__mcu_8c_source.html#l00101">GPIORead()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="a4e6364bad2f2b28ca6e9e9b4da0d47a7" name="a4e6364bad2f2b28ca6e9e9b4da0d47a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e6364bad2f2b28ca6e9e9b4da0d47a7">&#9670;&#160;</a></span>FuncTimerManejarPerifericos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FuncTimerManejarPerifericos </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>param</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función asociada al temporizador para el manejo de periféricos. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>Parametro no utilizado </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00277">277</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00187">perifericos_task_handle</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a39c90eadb8a23cd49832bf7307ccc2ce" name="a39c90eadb8a23cd49832bf7307ccc2ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c90eadb8a23cd49832bf7307ccc2ce">&#9670;&#160;</a></span>FuncTimerMedirPresiones()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FuncTimerMedirPresiones </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>param</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función asociada al temporizador para la medición de presiones. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>Parametro no utilizado </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00268">268</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00183">medirPresiones_task_handle</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a77c173a656824fcbd4e9ebff824aa5fe" name="a77c173a656824fcbd4e9ebff824aa5fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77c173a656824fcbd4e9ebff824aa5fe">&#9670;&#160;</a></span>leerEstadoDePuertas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void leerEstadoDePuertas </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que lee el estado de las puertas utilizando los finales de carrera respectivos. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00307">307</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00162">AMBAS_ABIERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00160">AMBAS_CERRADAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00166">ESTADO_ACTUAL_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00125">FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00130">FC2</a> y <a class="el" href="_p_i__presion_8c_source.html#l00161">UNA_CERRADA</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a5208247b29a2be0fdbe832384662b68d" name="a5208247b29a2be0fdbe832384662b68d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5208247b29a2be0fdbe832384662b68d">&#9670;&#160;</a></span>leerEstadoDiferencial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void leerEstadoDiferencial </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que lee el estado del difererncial de presiones. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00328">328</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00120">DIF_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00102">DIF_PRESION_MIN</a> y <a class="el" href="_p_i__presion_8c_source.html#l00148">ESTADO_ACTUAL_DIFERENCIAL_PRESION</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="ae7489fe776b45924079f083027771fd4" name="ae7489fe776b45924079f083027771fd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7489fe776b45924079f083027771fd4">&#9670;&#160;</a></span>leerFCsTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void leerFCsTask </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tarea que lee el estado de las finales de carrera para saber si la puerta está abierta o cerrada. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00503">503</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00065">CONFIG_BLINK_PERIOD</a>, <a class="el" href="_p_i__presion_8c_source.html#l00125">FC1</a>, <a class="el" href="_p_i__presion_8c_source.html#l00130">FC2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00206">FCRead()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00092">GPIO_FC1</a> y <a class="el" href="_p_i__presion_8c_source.html#l00097">GPIO_FC2</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a0418d68a5ff2a34653ae73d0d6d63cb3" name="a0418d68a5ff2a34653ae73d0d6d63cb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0418d68a5ff2a34653ae73d0d6d63cb3">&#9670;&#160;</a></span>manejarPerifericosTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void manejarPerifericosTask </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tarea para manejar los periféricos: servos y LED RGB. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00479">479</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00447">enviar_datos_bt()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00148">ESTADO_ACTUAL_DIFERENCIAL_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00166">ESTADO_ACTUAL_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00153">ESTADO_ANTERIOR_DIFERENCIAL_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00167">ESTADO_ANTERIOR_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>, <a class="el" href="neopixel__stripe_8c_source.html#l00044">NeoPixelAllOff()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00142">ON</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a5ecc8747868a92d63d583cd7ca36b088" name="a5ecc8747868a92d63d583cd7ca36b088"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ecc8747868a92d63d583cd7ca36b088">&#9670;&#160;</a></span>manejarServosYLEDs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void manejarServosYLEDs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que cambia el color del LED a naranja si no se cumple el diferencial de presiones y cierra los servos de ambas puertas. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00403">403</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00148">ESTADO_ACTUAL_DIFERENCIAL_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00166">ESTADO_ACTUAL_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00153">ESTADO_ANTERIOR_DIFERENCIAL_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00167">ESTADO_ANTERIOR_PUERTAS</a>, <a class="el" href="_p_i__presion_8c_source.html#l00307">leerEstadoDePuertas()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00328">leerEstadoDiferencial()</a>, <a class="el" href="neopixel__stripe_8h_source.html#l00038">NEOPIXEL_COLOR_ORANGE</a>, <a class="el" href="neopixel__stripe_8c_source.html#l00058">NeoPixelAllColor()</a>, <a class="el" href="servo__sg90_8h_source.html#l00033">SERVO_1</a> y <a class="el" href="servo__sg90_8h_source.html#l00034">SERVO_2</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a>.</p>
+
+</div>
+</div>
+<a id="a9c15feddde84793d95a3eb154d439736" name="a9c15feddde84793d95a3eb154d439736"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c15feddde84793d95a3eb154d439736">&#9670;&#160;</a></span>medirPresionesTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void medirPresionesTask </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tarea que mide las presiones. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00285">285</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Hace referencia a <a class="el" href="analog__io__mcu_8h_source.html#l00032">CH1</a>, <a class="el" href="analog__io__mcu_8h_source.html#l00033">CH2</a>, <a class="el" href="_p_i__presion_8c_source.html#l00120">DIF_PRESION</a>, <a class="el" href="_p_i__presion_8c_source.html#l00110">PRESION_HAB_LIMPIA</a>, <a class="el" href="_p_i__presion_8c_source.html#l00115">PRESION_HAB_SUCIA</a> y <a class="el" href="xfpm_8c_source.html#l00038">XFPM050MeasurePressure()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de variables</h2>
+<a id="afd75330594952a4eea4686d9e8ce7922" name="afd75330594952a4eea4686d9e8ce7922"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd75330594952a4eea4686d9e8ce7922">&#9670;&#160;</a></span>DIF_PRESION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float DIF_PRESION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00120">120</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00447">enviar_datos_bt()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00328">leerEstadoDiferencial()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00285">medirPresionesTask()</a>.</p>
+
+</div>
+</div>
+<a id="ab27c7476552fa245774d9b781c19e00b" name="ab27c7476552fa245774d9b781c19e00b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab27c7476552fa245774d9b781c19e00b">&#9670;&#160;</a></span>DIF_PRESION_MIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float DIF_PRESION_MIN = 5.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00102">102</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00447">enviar_datos_bt()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00328">leerEstadoDiferencial()</a>.</p>
+
+</div>
+</div>
+<a id="a1862b3c52770a99b1b09225f1608a26a" name="a1862b3c52770a99b1b09225f1608a26a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1862b3c52770a99b1b09225f1608a26a">&#9670;&#160;</a></span>ESTADO_ACTUAL_DIFERENCIAL_PRESION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ESTADO_ACTUAL_DIFERENCIAL_PRESION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00148">148</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00328">leerEstadoDiferencial()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a07427f15db83a2a8d375ebca9f55a170" name="a07427f15db83a2a8d375ebca9f55a170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07427f15db83a2a8d375ebca9f55a170">&#9670;&#160;</a></span>ESTADO_ACTUAL_PUERTAS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a> ESTADO_ACTUAL_PUERTAS = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00166">166</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00307">leerEstadoDePuertas()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a1b250ee9dbd644e261d4349b281eedb8" name="a1b250ee9dbd644e261d4349b281eedb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b250ee9dbd644e261d4349b281eedb8">&#9670;&#160;</a></span>ESTADO_ANTERIOR_DIFERENCIAL_PRESION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ESTADO_ANTERIOR_DIFERENCIAL_PRESION = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00153">153</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="adbfb4e66d10ca767676a2462ddbd6ebd" name="adbfb4e66d10ca767676a2462ddbd6ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbfb4e66d10ca767676a2462ddbd6ebd">&#9670;&#160;</a></span>ESTADO_ANTERIOR_PUERTAS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a83f3b93bc8a9b6e852737f7e945418d6">estado_puerta</a> ESTADO_ANTERIOR_PUERTAS = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00167">167</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00403">manejarServosYLEDs()</a>.</p>
+
+</div>
+</div>
+<a id="a94fb6a7719a890baff6be778206141e5" name="a94fb6a7719a890baff6be778206141e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94fb6a7719a890baff6be778206141e5">&#9670;&#160;</a></span>ESTADO_SERVO_1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a> ESTADO_SERVO_1 = <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0">SERVO_ABIERTO</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00179">179</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00241">abrirServo()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>.</p>
+
+</div>
+</div>
+<a id="a6c8b9caa72a86595a5f31376c5ded8a6" name="a6c8b9caa72a86595a5f31376c5ded8a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c8b9caa72a86595a5f31376c5ded8a6">&#9670;&#160;</a></span>ESTADO_SERVO_2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a7e9e8d7b8961e1b7a0fcc8997a5277af">estado_servo</a> ESTADO_SERVO_2 = <a class="el" href="#a602d9cf74f6e62b23eded25c1db65bada4f74da47970be1aba59912485b8239f0">SERVO_ABIERTO</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00180">180</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00241">abrirServo()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>.</p>
+
+</div>
+</div>
+<a id="ac3314df42b72328e9ea251ea8b4c15e0" name="ac3314df42b72328e9ea251ea8b4c15e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3314df42b72328e9ea251ea8b4c15e0">&#9670;&#160;</a></span>FC1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FC1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00125">125</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00241">abrirServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00307">leerEstadoDePuertas()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="a03efbef4d7a28e1ae8ec287322cf481e" name="a03efbef4d7a28e1ae8ec287322cf481e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03efbef4d7a28e1ae8ec287322cf481e">&#9670;&#160;</a></span>FC2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FC2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00130">130</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00241">abrirServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00215">cerrarServo()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00344">controlarServosYRGB()</a>, <a class="el" href="_p_i__presion_8c_source.html#l00307">leerEstadoDePuertas()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00503">leerFCsTask()</a>.</p>
+
+</div>
+</div>
+<a id="a9eba8389e9bfe4779471ee4146a9a2db" name="a9eba8389e9bfe4779471ee4146a9a2db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eba8389e9bfe4779471ee4146a9a2db">&#9670;&#160;</a></span>FCs_task_handle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TaskHandle_t FCs_task_handle = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Manejador de la tarea de los finales de carrera. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00185">185</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a>.</p>
+
+</div>
+</div>
+<a id="a0341f7bd414118679b02d987271f1ff0" name="a0341f7bd414118679b02d987271f1ff0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0341f7bd414118679b02d987271f1ff0">&#9670;&#160;</a></span>medirPresiones_task_handle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TaskHandle_t medirPresiones_task_handle = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Manejador de la tarea de medir presiones. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00183">183</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00268">FuncTimerMedirPresiones()</a>.</p>
+
+</div>
+</div>
+<a id="ad59f4ce1fa92c713a983055a6f029a0a" name="ad59f4ce1fa92c713a983055a6f029a0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59f4ce1fa92c713a983055a6f029a0a">&#9670;&#160;</a></span>ON</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ON = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00142">142</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00479">manejarPerifericosTask()</a>.</p>
+
+</div>
+</div>
+<a id="a1a1ee8dcf87528ad03e4e2756d6d8107" name="a1a1ee8dcf87528ad03e4e2756d6d8107"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a1ee8dcf87528ad03e4e2756d6d8107">&#9670;&#160;</a></span>perifericos_task_handle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TaskHandle_t perifericos_task_handle = <a class="el" href="ili9341_8c.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Manejador de la tarea de los periféricos. </p>
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00187">187</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00521">app_main()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00277">FuncTimerManejarPerifericos()</a>.</p>
+
+</div>
+</div>
+<a id="a4f07cb0cf1accd2348b60c3f266977ab" name="a4f07cb0cf1accd2348b60c3f266977ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f07cb0cf1accd2348b60c3f266977ab">&#9670;&#160;</a></span>PRESION_HAB_LIMPIA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PRESION_HAB_LIMPIA</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00110">110</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00447">enviar_datos_bt()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00285">medirPresionesTask()</a>.</p>
+
+</div>
+</div>
+<a id="a3361c06661de26675645c8ea44d23362" name="a3361c06661de26675645c8ea44d23362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3361c06661de26675645c8ea44d23362">&#9670;&#160;</a></span>PRESION_HAB_SUCIA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PRESION_HAB_SUCIA</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definición en la línea <a class="el" href="_p_i__presion_8c_source.html#l00115">115</a> del archivo <a class="el" href="_p_i__presion_8c_source.html">PI_presion.c</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="_p_i__presion_8c_source.html#l00447">enviar_datos_bt()</a> y <a class="el" href="_p_i__presion_8c_source.html#l00285">medirPresionesTask()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_27a4bb7fc2fc5e5520ea8ebf6e4ccea3.html">examples</a></li><li class="navelem"><a class="el" href="dir_b5a2865a940f51c3cb91312e52bb5fd2.html">PI_presion</a></li><li class="navelem"><a class="el" href="dir_dafe6c1ccc3db757dcdae3cd816f5825.html">main</a></li><li class="navelem"><a class="el" href="_p_i__presion_8c.html">PI_presion.c</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0 </li>
+  </ul>
+</div>
+</body>
+</html>
