@@ -129,19 +129,26 @@ typedef enum estados_FCs
     FC_cerrado = false,
 
 } estado_FC;
-
+/**
+ * @def ON
+ * @brief  
+ */
 bool ON = true;
 
-TaskHandle_t medirPresiones_task_handle = NULL;
-
-TaskHandle_t FCs_task_handle = NULL;
-
-TaskHandle_t perifericos_task_handle = NULL;
-
+/**
+ * @def bool ESTADO_ACTUAL_DIFERENCIAL_PRESION
+ * @brief  Variable donde se guarda el estado actual del diferencial de presion
+ */
 bool ESTADO_ACTUAL_DIFERENCIAL_PRESION ;
-
+/**
+ * @def bool ESTADO_ACTUAL_DIFERENCIAL_PRESION
+ * @brief  Variable donde se guarda el estado anterior del diferencial de presion
+ */
 bool ESTADO_ANTERIOR_DIFERENCIAL_PRESION = -1;
-
+/**
+ * @def typedef enum lista_estado_puertas
+ * @brief  Lista para facilitar el manejo del estado de puertas
+ */
 typedef enum lista_estado_puertas
 {
     AMBAS_CERRADAS,
@@ -152,7 +159,10 @@ typedef enum lista_estado_puertas
 
 estado_puerta ESTADO_ACTUAL_PUERTAS = -1;
 estado_puerta ESTADO_ANTERIOR_PUERTAS = -1;
-
+/**
+ * @def typedef enum estados_servos
+ * @brief  Lista para facilitar el manejo del estado de los servos.
+ */
 typedef enum estados_servos
 {
     SERVO_ABIERTO = 45,
@@ -163,20 +173,39 @@ typedef enum estados_servos
 estado_servo ESTADO_SERVO_1 = SERVO_ABIERTO;
 estado_servo ESTADO_SERVO_2 = SERVO_ABIERTO;
 
-
+/*! @brief Manejador de la tarea de medir presiones */
+TaskHandle_t medirPresiones_task_handle = NULL;
+/*! @brief Manejador de la tarea de los finales de carrera */
+TaskHandle_t FCs_task_handle = NULL;
+/*! @brief Manejador de la tarea de los periféricos */
+TaskHandle_t perifericos_task_handle = NULL;
  
 /*==================[internal functions declaration]=========================*/
+/**
+ * @fn int8_t FCInit(gpio_t pin)
+ * @brief Función para inicalizar el gpio del final de carrera correspondiente.
+ * @param pin es el GPIO donde está conectado el final de carrera 
+ */
 int8_t FCInit(gpio_t pin)
 {
 	/* GPIO configurations */
 	GPIOInit(pin, GPIO_INPUT);	// FC
 	return true;
 }
-
+/**
+ * @fn int8_t FCRead(gpio_t pin)
+ * @brief Función para leer el estado del GPIO(de tipo bool).
+ * @param pin es el GPIO donde está conectado el final de carrera 
+ */
 int8_t FCRead(gpio_t pin)
 {
     return GPIORead(pin);
 }
+/**
+ * @fn cerrarServo(int SERVO)
+ * @brief Función que cierra el servo que se le pase (Servo 1 o 2).
+ * @param SERVO
+ */
 void cerrarServo(int SERVO)
 {
     switch (SERVO)
@@ -198,6 +227,11 @@ void cerrarServo(int SERVO)
         break;
     }
 }
+/**
+ * @fn abrirServo(int SERVO)
+ * @brief Función que abre el servo que se le pase (Servo 1 o 2).
+ * @param SERVO
+ */
 void abrirServo(int SERVO)
 {
     switch(SERVO)
@@ -220,17 +254,28 @@ void abrirServo(int SERVO)
         break;
     }
 }
-
+/**
+ * @fn void FuncTimerMedirPresiones(void* param)
+ * @brief Función asociada al temporizador para la medición de presiones.
+ * @param param Parametro no utilizado
+ */
 void FuncTimerMedirPresiones(void* param)
 {
     vTaskNotifyGiveFromISR(medirPresiones_task_handle, pdFALSE);    	
 }
-
+/**
+ * @fn void FuncTimerManejarPerifericos(void* param)
+ * @brief Función asociada al temporizador para el manejo de periféricos.
+ * @param param Parametro no utilizado
+ */
 void FuncTimerManejarPerifericos(void* param)
 {
     vTaskNotifyGiveFromISR(perifericos_task_handle , pdFALSE);    	
 }
-
+/**
+ * @fn medirPresionesTask()
+ * @brief Tarea que mide las presiones.
+ */
 static void medirPresionesTask()
 {
     while (true)
@@ -249,7 +294,10 @@ static void medirPresionesTask()
         printf("DIFERENCIAL DE PRESIÓN: %f\n",DIF_PRESION);
     }
 }
-
+/**
+ * @fn leerEstadoDePuertas()
+ * @brief Función que lee el estado de las puertas utilizando los finales de carrera respectivos.
+ */
 void leerEstadoDePuertas()
 {
     //ESTADO DE PUERTAS
@@ -267,7 +315,10 @@ void leerEstadoDePuertas()
         ESTADO_ACTUAL_PUERTAS = AMBAS_CERRADAS;
     }
 }
-
+/**
+ * @fn leerEstadoDiferencial()
+ * @brief Función que lee el estado del difererncial de presiones.
+ */
 void leerEstadoDiferencial()
 {
     if (DIF_PRESION < DIF_PRESION_MIN)
@@ -280,7 +331,11 @@ void leerEstadoDiferencial()
     }
     
 }
-void moverServos()
+/**
+ * @fn controlarServosYRGB()
+ * @brief Función que mueve los servos y cambia el color de LED según el estado de las puertas.
+ */
+void controlarServosYRGB()
 {
       switch (ESTADO_ACTUAL_PUERTAS)
             {
@@ -334,6 +389,11 @@ void moverServos()
                 break;
             }
 }
+/**
+ * @fn manejarServosYLEDs()
+ * @brief Función que cambia el color del LED a naranja si no se cumple el diferencial de presiones y
+ * cierra los servos de ambas puertas.
+ */
 void manejarServosYLEDs()
 {
     leerEstadoDiferencial();
@@ -357,7 +417,7 @@ void manejarServosYLEDs()
 
             else
             {
-                moverServos();
+                controlarServosYRGB();
             }
 
     }
@@ -368,10 +428,16 @@ void manejarServosYLEDs()
 
         if (ESTADO_ACTUAL_PUERTAS != ESTADO_ANTERIOR_PUERTAS)
         {
-            moverServos();
+            controlarServosYRGB();
         }
     }
 }
+/**
+ * @fn enviar_datos_bt()
+ * @brief Función que envia los datos por bluetooth a la aplicación. 
+ * Envía presiones de la salas, el diferencial de presiones y una señal 
+ * para activar una alarma sonora y una luz en la aplicación.
+ */
 void enviar_datos_bt()
 {
     char presion_hab_limpia_str[20];
@@ -400,7 +466,10 @@ void enviar_datos_bt()
         }
 
 }
-
+/**
+ * @fn manejarPerifericosTask()
+ * @brief Tarea para manejar los periféricos: servos y LED RGB.
+ */
 static void manejarPerifericosTask(){
 
     while (true)
@@ -421,30 +490,10 @@ static void manejarPerifericosTask(){
         ESTADO_ANTERIOR_DIFERENCIAL_PRESION = ESTADO_ACTUAL_DIFERENCIAL_PRESION;
     }
 }
-
-void detectarFC()
-{
-	uint8_t tecla;
-	UartReadByte(UART_PC, &tecla);
-	switch (tecla)
-	{
-		case 'A':
-			FC1 = !FC1;
-			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 1");    
-            printf("FC1 esta en%d: \n",FC1);
-			break;
-	
-		case 'B':
-			FC2 = !FC2;
-			UartSendByte(UART_PC, (char*)&tecla);
-            printf("Cambia estado puerta 2");
-            printf("FC2 esta en%d: \n",FC2);
-			break;
-	}
-}
-
-
+/**
+ * @fn leerFCsTask()
+ * @brief Tarea que lee el estado de las finales de carrera para saber si la puerta está abierta o cerrada.
+ */
 void leerFCsTask()
 {
     while (true)
@@ -468,12 +517,12 @@ void app_main(void){
     /*Inicialización de los sensores de presión*/
     XFPM050Init(CH1);
     XFPM050Init(CH2);
-
+    //Configuración del bluetooth
     ble_config_t ble_configuration = {
     "ESP_EDU_1",
     BLE_NO_INT
     };
-
+    //Inicilizaciones
     BleInit(&ble_configuration);
 
     ServoInit(SERVO_1, GPIO_23);//Falta definir gpio
@@ -484,7 +533,7 @@ void app_main(void){
     static neopixel_color_t color;
     NeoPixelInit(BUILT_IN_RGB_LED_PIN, BUILT_IN_RGB_LED_LENGTH, &color);
     NeoPixelAllColor(NEOPIXEL_COLOR_BLUE);
-   	
+   	//Inicializacion de los finales de carrera
     FCInit(GPIO_FC1);
     FCInit(GPIO_FC2);
 
@@ -507,7 +556,7 @@ void app_main(void){
     TimerInit(&timer_per);
 	TimerStart(timer_per.timer);
 
-
+    //Tareas
     xTaskCreate(&medirPresionesTask, "Medir Presiones", 2048, NULL, 5, &medirPresiones_task_handle);
 
     xTaskCreate(&leerFCsTask, "Leer FCs", 2048, NULL, 5, &FCs_task_handle);
